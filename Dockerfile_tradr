@@ -1,0 +1,101 @@
+FROM ros:indigo
+
+# Arguments
+ARG user
+ARG uid
+ARG home
+ARG workspace
+ARG shell
+ARG nvidia_driver_version
+ARG container_name
+
+LABEL maintainer="luigifreda@gmail.com"
+
+################################
+
+# Basic Utilities
+RUN apt-get -y update && apt-get install -y zsh screen tree sudo ssh synaptic \
+aptitude gedit geany \
+x11-xserver-utils psmisc
+
+# Latest X11 / mesa GL
+RUN apt-get install -y\
+  xserver-xorg-dev-lts-wily\
+  libegl1-mesa-dev-lts-wily\
+  libgl1-mesa-dev-lts-wily\
+  libgbm-dev-lts-wily\
+  mesa-common-dev-lts-wily\
+  libgles2-mesa-lts-wily\
+  libwayland-egl1-mesa-lts-wily\
+  libopenvg1-mesa\
+  mesa-utils
+
+# Dependencies required to build rviz
+RUN apt-get install -y\
+  qt4-dev-tools\
+  libqt5core5a libqt5dbus5 libqt5gui5 libwayland-client0\
+  libwayland-server0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1\
+  libxcb-render-util0 libxcb-util0 libxcb-xkb1 libxkbcommon-x11-0\
+  libxkbcommon0
+
+# The rest of ROS-desktop
+RUN apt-get install -y ros-indigo-desktop-full
+
+# Additional development tools
+RUN apt-get install -y x11-apps python-pip build-essential
+RUN pip install -U catkin_tools
+
+# TRADR deps
+RUN apt-get install -y \
+python-rosinstall \
+ros-indigo-octomap-ros ros-indigo-octomap-mapping \
+ros-indigo-joy \
+ros-indigo-sound-play  ros-indigo-camera-info-manager-py \
+ros-indigo-camera-info-manager \
+ros-indigo-tf2-geometry-msgs ros-indigo-tf2 \
+ros-indigo-imu-transformer \
+ros-indigo-laser-assembler \
+ros-indigo-move-base-msgs ros-indigo-move-base \
+ros-indigo-moveit-ros ros-indigo-openni2-* \
+ros-indigo-mapviz-plugins \
+ros-indigo-imu-transformer \
+openjdk-7-jdk \ 
+python-jinja2 \
+doxygen \
+libssh2-1-dev \
+libudev-dev \
+libvlc-dev libvlccore-dev
+
+# nvidia-docker hooks
+LABEL com.nvidia.volumes.needed="nvidia_driver"
+#ENV PATH=/usr/local/nvidia/bin:${PATH}
+#ENV LD_LIBRARY_PATH=/usr/local/nvidia/lib:/usr/local/nvidia/lib64:${LD_LIBRARY_PATH}
+ENV PATH /usr/lib/nvidia-${nvidia_driver_version}/bin:${PATH}
+ENV LD_LIBRARY_PATH /usr/lib/nvidia-${nvidia_driver_version}:${LD_LIBRARY_PATH}
+
+# Make SSH available
+EXPOSE 22
+
+# Mount the user's home directory
+VOLUME "${home}"
+
+# Clone user into docker image and set up X11 sharing 
+RUN \
+  echo "${user}:x:${uid}:${uid}:${user},,,:${home}:${shell}" >> /etc/passwd && \
+  echo "${user}:x:${uid}:" >> /etc/group && \
+  echo "${user} ALL=(ALL) NOPASSWD: ALL" > "/etc/sudoers.d/${user}" && \
+  chmod 0440 "/etc/sudoers.d/${user}"
+
+# Switch to user
+USER "${user}"
+# This is required for sharing Xauthority
+ENV QT_X11_NO_MITSHM=1
+ENV CATKIN_TOPLEVEL_WS="${workspace}/devel"
+
+ENV CONTAINER_NAME="${container_name}"
+
+# Switch to the workspace
+WORKDIR ${workspace}
+
+
+
