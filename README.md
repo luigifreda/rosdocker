@@ -10,11 +10,8 @@ This repo contains a set of tools for managing docker containers and (ROS) image
   
 ## Requirements
 
-Check you have properly installed *nvidia-docker2*. Running the following command should be enough:    
-`$ sudo apt install nvidia-docker2`  
-
-See the [references](#references) below if needed. 
-
+Check you have installed the *[nvidia-docker-toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#tab-0-0-0)*:   
+`$ sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit-base`  
 
 ## Usage
 
@@ -80,9 +77,7 @@ $ sudo service docker restart
 
 ## References
 
-* install docker-ce    
-https://docs.docker.com/install/linux/docker-ce/ubuntu/
-* install nvidia-docker2      
+* install nvidia container toolkit     
 https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker 
 * permission denied issue     
   https://phoenixnap.com/kb/docker-permission-denied
