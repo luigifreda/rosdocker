@@ -57,11 +57,11 @@ Each container corresponds to a dockerfile: `Dockerfile_<CONTAINER_NAME>`. You c
 
 ## 3DMR 
 
-In order to build and run the `noetic_3dmr`container (layered build), check you are connected to the network and run: 
-`$ ./build.sh noetic`    
-`$ ./build.sh noetic_3dmr`    
-Now, from your host, clone [3DMR](https://github.com/luigifreda/3dmr) into your set folder `$WORKING_FOLDER_TO_KEEP_IN_CONTAINER`. Then, run: 
-`$ ./run.sh noetic_3dmr`.
+In order to build and run the `noetic_3dmr`container (layered build), check you are connected to the network and run:     
+`$ ./build.sh noetic`     
+`$ ./build.sh noetic_3dmr`      
+Now, from your host, clone [3DMR](https://github.com/luigifreda/3dmr) into your set folder `$WORKING_FOLDER_TO_KEEP_IN_CONTAINER`. Then, run:    
+`$ ./run.sh noetic_3dmr`.    
 Next, from within the container, get into the folder `$WORKING_FOLDER_TO_KEEP_IN_CONTAINER`, and then build the workspace. 
 
 ## Troubleshooting 
