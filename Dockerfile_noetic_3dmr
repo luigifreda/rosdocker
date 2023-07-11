@@ -1,0 +1,87 @@
+# first build a local noetic
+FROM noetic   
+
+# from https://varhowto.com/install-ros-noetic-docker/
+#FROM ros:noetic-robot
+
+# Arguments
+ARG user
+ARG uid
+ARG home
+ARG workspace
+ARG shell
+ARG nvidia_driver_version
+ARG container_name
+
+LABEL maintainer="luigifreda@gmail.com"
+
+################################
+
+# switch to root 
+USER root  
+
+RUN apt-get -y update && DEBIAN_FRONTEND=noninteractive apt-get install -y keyboard-configuration
+RUN apt-get install -y git curl wget ca-certificates 
+
+# Switch to user
+USER "${user}"
+
+# Install and configure git
+RUN sudo mkdir -p /home/${user}/.ssh && sudo chmod 0777 -R /home/${user}
+RUN touch ~/.gitconfig && touch ~/.ssh/known_hosts
+#RUN ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+RUN git config --global user.name "${user}"
+RUN git config --global user.email "${user}@${user}.com"
+
+# Install 3dmr
+WORKDIR /tmp
+RUN git clone https://github.com/luigifreda/3dmr.git 
+# the following to inform we are inside docker at build time 
+RUN sudo touch /.dockerenv 
+RUN cd 3dmr && ./install.sh 
+
+# Switch back to root 
+USER root 
+
+################################
+
+# from  http://wiki.ros.org/docker/Tutorials/Hardware%20Acceleration  (with nvidia-docker2)
+# nvidia-container-runtime
+ENV NVIDIA_VISIBLE_DEVICES \
+    ${NVIDIA_VISIBLE_DEVICES:-all}
+ENV NVIDIA_DRIVER_CAPABILITIES \
+    ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
+
+# Make SSH available
+EXPOSE 22
+
+# Mount the user's home directory
+VOLUME "${home}"
+
+# Clone user into docker image and set up X11 sharing 
+RUN \
+  echo "${user}:x:${uid}:${uid}:${user},,,:${home}:${shell}" >> /etc/passwd && \
+  echo "${user}:x:${uid}:" >> /etc/group && \
+  echo "${user} ALL=(ALL) NOPASSWD: ALL" > "/etc/sudoers.d/${user}" && \
+  chmod 0440 "/etc/sudoers.d/${user}"
+
+#RUN echo "${user} ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers 
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+RUN echo "${user}:docker" | chpasswd 
+RUN echo "root:docker" | chpasswd  # this allows to switch to user with $ su -
+
+# Switch to user
+USER "${user}"
+
+# This is required for sharing Xauthority
+ENV QT_X11_NO_MITSHM=1
+ENV CATKIN_TOPLEVEL_WS="${workspace}/devel"
+
+ENV CONTAINER_NAME="${container_name}"
+
+# Switch to the workspace
+WORKDIR ${workspace}
+
+
+

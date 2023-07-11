@@ -11,7 +11,7 @@ fi
 
 export CONTAINER_NAME=$1 
 
-# first set the container name and then source the config file
+# First set the container name and then source the config file
 source config.sh
 
 
@@ -22,7 +22,7 @@ popd > /dev/null
 
 set -e
 
-# from  http://wiki.ros.org/docker/Tutorials/Hardware%20Acceleration  (with nvidia-docker2)
+# From  http://wiki.ros.org/docker/Tutorials/Hardware%20Acceleration  (with nvidia-docker2)
 xhost + $(hostname)
 XSOCK=/tmp/.X11-unix
 XAUTH=/tmp/.docker.xauth
@@ -51,23 +51,25 @@ if [ "$(docker ps -a | grep ${CONTAINER_NAME})" ]; then
 else
     echo "Starting container $CONTAINER_NAME ..."
     
-    # create a new clean temporary "home" folder in the launching folder and mount it as HOME folder in the container
-    if [ $USE_TEMP_HOME -eq 1 ]; then 
-        echo 'creating a temporary folder'
+    # Below we use some of the options we set in the config.sh file 
+    # Create a new clean temporary "home" folder in the launching folder and mount it as HOME folder in the container
+    if [ $USE_TEMP_HOME_FOLDER -eq 1 ]; then 
+        echo 'Creating a temporary home folder'
         TEMP_HOME_FOLDER=`pwd`/"temp_home_$CONTAINER_NAME"
         if [ ! -d $TEMP_HOME_FOLDER ]; then
             mkdir -p $TEMP_HOME_FOLDER
             chmod 0777 $TEMP_HOME_FOLDER
         fi 
-        # mount the temporary folder as new HOME
+        # Mount the temporary folder as new HOME in the container
         HOME_OPTIONS="-v "$TEMP_HOME_FOLDER:$HOME":rw"
-        # mount the actual $HOME/Work folder as $HOME/Work (so we can find the code)
-        HOME_OPTIONS+=" -v "$HOME/Work":"$HOME/Work":rw"
+        # Mount the $WORKING_FOLDER_TO_KEEP_IN_CONTAINER as $WORKING_FOLDER_TO_KEEP_IN_CONTAINER into the run container
+        # In this way, we can continue our work within the docker container.
+        HOME_OPTIONS+=" -v "$WORKING_FOLDER_TO_KEEP_IN_CONTAINER":"$WORKING_FOLDER_TO_KEEP_IN_CONTAINER":rw"
     else
         HOME_OPTIONS="-v "$HOME:$HOME":rw"
-        if [ -d $TEMP_HOME_FOLDER ]; then    
-            HOME_OPTIONS+=" -v "$HOME/Work":"$HOME/Work":rw"  # added synce my "Work" folder is a symbolic link
-        fi
+        #if [ -d $TEMP_HOME_FOLDER ]; then    
+        #    HOME_OPTIONS+=" -v "$WORKING_FOLDER_TO_KEEP_IN_CONTAINER":"$WORKING_FOLDER_TO_KEEP_IN_CONTAINER":rw"  # added synce my "Work" folder is a symbolic link
+        #fi
     fi 
 
     docker run -it --rm \

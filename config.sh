@@ -4,24 +4,35 @@ source bash_utils.sh
 
 THIS_DIR="$(cd "$(dirname "$BASH_SOURCE")"; pwd)"
 
-# NOTE: this will create a new clean temporary "home" folder in the launching folder and will mount it as HOME folder in the launched container
-export USE_TEMP_HOME=1
-echo using USE_TEMP_HOME: $USE_TEMP_HOME
+# =====================================
+# Options 
+
+# This working folder will be mounted from the host into the run container.
+# In this way, we can continue our work within the docker container.
+export WORKING_FOLDER_TO_KEEP_IN_CONTAINER="$HOME/Work"
+echo WORKING_FOLDER_TO_KEEP_IN_CONTAINER: $WORKING_FOLDER_TO_KEEP_IN_CONTAINER
+
+# This will create a new clean temporary "home" folder in the launching folder and will mount it as HOME folder in the launched container
+export USE_TEMP_HOME_FOLDER=1  # 1 create a new home folder as explained 
+                               # 0 import the full home folder within docker (experimental, use this only if you know what you are doing)
+echo USE_TEMP_HOME_FOLDER: $USE_TEMP_HOME_FOLDER
 
 
-# NOTE: get the current version of the NVIDIA driver (from https://unix.stackexchange.com/questions/25663/how-to-get-the-version-of-my-nvidia-driver/417635#417635 )
+# =====================================
+
+# Get the current version of the NVIDIA driver (from https://unix.stackexchange.com/questions/25663/how-to-get-the-version-of-my-nvidia-driver/417635#417635 )
 # $ nvidia-smi --query-gpu=driver_version --format=csv,noheader
 # The following variable is automatically set and must correctly reflect the currently used nvidia driver
 export NVIDIA_DRIVER_VERSION=$(get_current_nvidia_driver_version)
-echo using NVIDIA DRIVER: $NVIDIA_DRIVER_VERSION
+echo Using NVIDIA DRIVER: $NVIDIA_DRIVER_VERSION
 
-# set default container name if it wasn't set up
+# Set default container name if it wasn't set up
 if [[ -z "${CONTAINER_NAME}" ]]; then
     export CONTAINER_NAME=noetic  
 fi
 export DOCKER_FILE="Dockerfile_$CONTAINER_NAME"
 
-# set the target bashrc file we are going to use  
+# Set the target bashrc file we are going to use  
 export USED_BASHRC="bashrc" 
 case $CONTAINER_NAME in
    "indigo") 
