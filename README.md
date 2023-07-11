@@ -43,7 +43,7 @@ For instance, if you want to run and build the `noetic` container (see [next sec
 
 **NOTE1**: When you update your nvidia drivers, rebuild the container with the `build.sh` script. 
 
-**NOTE2**: any change made outside of your home directory from within the Docker environment will not persist. If you want to add additional binary packages without having to reinstall them each time, add them to the Dockerfile and rebuild. This is a trivial thing for normal docker users. 
+**NOTE2**: any change made outside of our folder `WORKING_FOLDER_TO_KEEP_IN_CONTAINER` from within the docker environment will not persist. If you want to add additional binary packages without having to reinstall them each time, add them to the Dockerfile and rebuild. This is a trivial thing for normal docker users. 
 
 ## Available Containers and Dockerfiles 
 
