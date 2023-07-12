@@ -17,8 +17,8 @@ Check you have installed the *[nvidia-docker-toolkit](https://docs.nvidia.com/da
 
 ### Configuration 
 
-In the file [config.sh](./config.sh), set your favorite *working folder* `WORKING_FOLDER_TO_KEEP_IN_CONTAINER`. This folder will be mounted from the host into the run container so that we can continue our work within the container. By default, we have:    
-`WORKING_FOLDER_TO_KEEP_IN_CONTAINER="$HOME/Work"`       
+In the file [config.sh](./config.sh), set your favorite *working folder* `WORKING_FOLDER_TO_MOUNT_IN_CONTAINER`. This folder will be mounted from the host into the run container so that we can continue our work within the container. By default, we have:    
+`WORKING_FOLDER_TO_MOUNT_IN_CONTAINER="$HOME/Work"`       
 
 
 ### Build and run  
@@ -40,7 +40,7 @@ For instance, if you want to run and build the `noetic` container (see [next sec
 
 **NOTE1**: When you update your nvidia drivers, rebuild the container with the `build.sh` script. 
 
-**NOTE2**: any change made outside of our folder `WORKING_FOLDER_TO_KEEP_IN_CONTAINER` from within the docker environment will not persist. If you want to add additional binary packages without having to reinstall them each time, add them to the Dockerfile and rebuild. This is a trivial thing for normal docker users. 
+**NOTE2**: any change made outside of our folder `WORKING_FOLDER_TO_MOUNT_IN_CONTAINER` from within the docker environment will not persist. If you want to add additional binary packages without having to reinstall them each time, add them to the Dockerfile and rebuild. This is a trivial thing for normal docker users. 
 
 ## Available Containers and Dockerfiles 
 
@@ -57,9 +57,9 @@ Each container corresponds to a dockerfile: `Dockerfile_<CONTAINER_NAME>`. You c
 In order to build and run the `noetic_3dmr`container (layered build), check you are connected to the network and run:     
 `$ ./build.sh noetic`     
 `$ ./build.sh noetic_3dmr`      
-Now, from your host, clone [3DMR](https://github.com/luigifreda/3dmr) into your set folder `$WORKING_FOLDER_TO_KEEP_IN_CONTAINER`. Then, run:    
+Now, from your host, clone [3DMR](https://github.com/luigifreda/3dmr) into your set folder `$WORKING_FOLDER_TO_MOUNT_IN_CONTAINER`. Then, run:    
 `$ ./run.sh noetic_3dmr`.    
-Next, from within the container, get into the folder `$WORKING_FOLDER_TO_KEEP_IN_CONTAINER`, and then build the workspace. 
+Next, from within the container, get into the folder `$WORKING_FOLDER_TO_MOUNT_IN_CONTAINER`, and then build the workspace. 
 
 ## Troubleshooting 
 

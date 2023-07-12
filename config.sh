@@ -9,8 +9,8 @@ THIS_DIR="$(cd "$(dirname "$BASH_SOURCE")"; pwd)"
 
 # This working folder will be mounted from the host into the run container.
 # In this way, we can continue our work within the docker container.
-export WORKING_FOLDER_TO_KEEP_IN_CONTAINER="$HOME/Work"
-echo WORKING_FOLDER_TO_KEEP_IN_CONTAINER: $WORKING_FOLDER_TO_KEEP_IN_CONTAINER
+export WORKING_FOLDER_TO_MOUNT_IN_CONTAINER="$HOME/Work"
+echo WORKING_FOLDER_TO_MOUNT_IN_CONTAINER: $WORKING_FOLDER_TO_MOUNT_IN_CONTAINER
 
 # This will create a new clean temporary "home" folder in the launching folder and will mount it as HOME folder in the launched container
 export USE_TEMP_HOME_FOLDER=1  # 1 create a new home folder as explained 

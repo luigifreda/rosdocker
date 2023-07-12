@@ -62,13 +62,13 @@ else
         fi 
         # Mount the temporary folder as new HOME in the container
         HOME_OPTIONS="-v "$TEMP_HOME_FOLDER:$HOME":rw"
-        # Mount the $WORKING_FOLDER_TO_KEEP_IN_CONTAINER as $WORKING_FOLDER_TO_KEEP_IN_CONTAINER into the run container
+        # Mount the $WORKING_FOLDER_TO_MOUNT_IN_CONTAINER as $WORKING_FOLDER_TO_MOUNT_IN_CONTAINER into the run container
         # In this way, we can continue our work within the docker container.
-        HOME_OPTIONS+=" -v "$WORKING_FOLDER_TO_KEEP_IN_CONTAINER":"$WORKING_FOLDER_TO_KEEP_IN_CONTAINER":rw"
+        HOME_OPTIONS+=" -v "$WORKING_FOLDER_TO_MOUNT_IN_CONTAINER":"$WORKING_FOLDER_TO_MOUNT_IN_CONTAINER":rw"
     else
         HOME_OPTIONS="-v "$HOME:$HOME":rw"
         #if [ -d $TEMP_HOME_FOLDER ]; then    
-        #    HOME_OPTIONS+=" -v "$WORKING_FOLDER_TO_KEEP_IN_CONTAINER":"$WORKING_FOLDER_TO_KEEP_IN_CONTAINER":rw"  # added synce my "Work" folder is a symbolic link
+        #    HOME_OPTIONS+=" -v "$WORKING_FOLDER_TO_MOUNT_IN_CONTAINER":"$WORKING_FOLDER_TO_MOUNT_IN_CONTAINER":rw"  # added synce my "Work" folder is a symbolic link
         #fi
     fi 
 
