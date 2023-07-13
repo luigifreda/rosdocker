@@ -49,7 +49,7 @@ Each container `<CONTAINER_NAME>` listed below corresponds to a dockerfile: `Doc
 
 - `melodic` built on the top of `ros:melodic-ros-base-bionic` (`ubuntu:18.04`)
 - `noetic` built on the top of `ros:noetic-ros-base-focal` (`ubuntu:20.04`)
-- `noetic_3dmr` layered built on the top of the previous `noetic` and installing all the deps of [3DMR](https://github.com/luigifreda/3dmr.git))  (`ubuntu:20.04`)
+- `noetic_3dmr` build on the top of the previous `noetic` and installing all the deps of [3DMR](https://github.com/luigifreda/3dmr.git))  (`ubuntu:20.04`)
 - `ubuntu20` built on the top of `ubuntu:20.04` (no ROS)
 - `humble`  built on the top of `ros:humble` (`ubuntu:22.04`)
 - `ubuntu22` built on the top of `ubuntu:22.04` (no ROS)
