@@ -7,7 +7,7 @@ This repo contains a set of tools for managing docker containers and (ROS) image
 - You can run a container and transparently attach many terminals to it: text and color of the bash prompt will inform you where you are. 
 - Each container shares its network interface with the host.
 - GUIs can be run from each container terminal (nvidia drivers are transparently managed). For instance, you can run `rviz`.  
-- You favorite working folder is conveniently imported into the docker containers when you run them. 
+- You favorite working folder is conveniently mounted into the docker containers when you run them. 
   
 ## Requirements
 
