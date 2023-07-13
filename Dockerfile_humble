@@ -1,0 +1,90 @@
+
+FROM ros:humble
+
+# Arguments
+ARG user
+ARG uid
+ARG home
+ARG workspace
+ARG shell
+ARG nvidia_driver_version
+ARG container_name
+
+LABEL maintainer="luigifreda@gmail.com"
+
+################################
+
+RUN apt-get -y update && apt-get -y dist-upgrade 
+RUN apt-get install -y tzdata apt-utils && DEBIAN_FRONTEND=noninteractive apt-get install -y keyboard-configuration
+
+# Basic Utilities 
+RUN apt-get install -y screen tree sudo ssh synaptic \
+aptitude gedit geany 
+
+# Latest X11 / mesa GL
+RUN apt-get install -y mesa-utils 
+
+# Dependencies required to build rviz
+RUN apt-get install -y libqt5core5a libqt5dbus5 libqt5gui5 
+
+# ROS-desktop
+#RUN apt-get install -y ros-noetic-desktop-full
+
+# Additional development tools
+RUN apt-get install -y build-essential git
+
+# Python 
+RUN apt-get install -y python3-pip
+RUN ln -s /usr/bin/python3 /usr/bin/python 
+RUN pip3 install -U catkin_tools
+
+# ROS deps
+RUN apt-get install -y \
+#python-rosinstall \
+#python-jinja2 \
+doxygen \
+libssh2-1-dev \
+libudev-dev 
+
+################################
+
+# from  http://wiki.ros.org/docker/Tutorials/Hardware%20Acceleration  (with nvidia-docker2)
+# nvidia-container-runtime
+ENV NVIDIA_VISIBLE_DEVICES \
+    ${NVIDIA_VISIBLE_DEVICES:-all}
+ENV NVIDIA_DRIVER_CAPABILITIES \
+    ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
+
+# Make SSH available
+EXPOSE 22
+
+# Mount the user's home directory
+VOLUME "${home}"
+
+# Clone user into docker image and set up X11 sharing 
+RUN \
+  echo "${user}:x:${uid}:${uid}:${user},,,:${home}:${shell}" >> /etc/passwd && \
+  echo "${user}:x:${uid}:" >> /etc/group && \
+  echo "${user} ALL=(ALL) NOPASSWD: ALL" > "/etc/sudoers.d/${user}" && \
+  chmod 0440 "/etc/sudoers.d/${user}"
+
+#RUN echo "${user} ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers 
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+RUN echo "${user}:docker" | chpasswd 
+RUN echo "root:docker" | chpasswd  # this allows to switch to user with $ su -
+
+# Switch to user
+USER "${user}"
+
+# This is required for sharing Xauthority
+ENV QT_X11_NO_MITSHM=1
+ENV CATKIN_TOPLEVEL_WS="${workspace}/devel"
+
+ENV CONTAINER_NAME="${container_name}"
+
+# Switch to the workspace
+WORKDIR ${workspace}
+
+
+
