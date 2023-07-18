@@ -1,6 +1,6 @@
 # Docker
 
-Start with this nice [demo](https://www.youtube.com/watch?v=XcJzOYe3E6M) then check the list of commands below.
+Start with this nice [demo](https://www.youtube.com/watch?v=XcJzOYe3E6M) then check the list of docker commands below.
 
 ## Commands 
 ### Containers 
@@ -76,8 +76,8 @@ Log out and log back in to start using docker without sudo. More details [here](
 
 ## References
 
-* nice intro/demo for docker 
+* Nice intro/demo for docker 
   https://www.youtube.com/watch?v=XcJzOYe3E6M 
-* nice cheatsheet/tutorials: 
+* Nice cheatsheet/tutorials: 
   https://www.edureka.co/blog/docker-commands/#rm 
   https://shisho.dev/blog/posts/docker-remove-cheatsheet/
