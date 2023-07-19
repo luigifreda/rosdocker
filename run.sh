@@ -85,7 +85,7 @@ else
             -v $CONTAINER_BASHRC:$HOME/.bashrc \
             -v /usr/local/V-REP_PRO_EDU_V3_5_0_Linux:/usr/local/V-REP_PRO_EDU_V3_5_0_Linux \
             -v /media:/media -v /mnt:/mnt -v /dev:/dev  -v $HOME/.ssh:$HOME/.ssh \
-            --runtime=nvidia \
+            --gpus all -e NVIDIA_DRIVER_CAPABILITIES=all -e NVIDIA_VISIBLE_DEVICES=all --runtime=nvidia \
             --privileged \
             --name $CONTAINER_NAME \
       $1 $SHELL
