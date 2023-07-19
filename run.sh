@@ -5,8 +5,8 @@ set -e
 
 # Check args
 if [ "$#" -ne 1 ]; then
-  echo "usage: ./run.sh CONTAINER_NAME"
-  return 1
+  echo "usage: ./run.sh <CONTAINER_NAME>"
+  exit 1
 fi
 
 export CONTAINER_NAME=$1 
