@@ -12,10 +12,10 @@ THIS_DIR="$(cd "$(dirname "$BASH_SOURCE")"; pwd)"
 export WORKING_FOLDER_TO_MOUNT_IN_CONTAINER="$HOME/Work"
 echo WORKING_FOLDER_TO_MOUNT_IN_CONTAINER: $WORKING_FOLDER_TO_MOUNT_IN_CONTAINER
 
-# This will create a new clean temporary "home" folder in the launching folder and will mount it as HOME folder in the launched container
-export USE_TEMP_HOME_FOLDER=1  # 1 create a new home folder as explained 
-                               # 0 import the full home folder within docker (experimental, use this only if you know what you are doing)
-echo USE_TEMP_HOME_FOLDER: $USE_TEMP_HOME_FOLDER
+# This will create a local "home" folder in the launching folder and will mount it as HOME folder in the launched container
+export USE_LOCAL_HOME_FOLDER=1  # 1 create a local home folder as explained
+                                # 0 no, I don't want that 
+echo USE_LOCAL_HOME_FOLDER: $USE_LOCAL_HOME_FOLDER
 
 
 # =====================================

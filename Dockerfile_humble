@@ -79,7 +79,7 @@ USER "${user}"
 
 # This is required for sharing Xauthority
 ENV QT_X11_NO_MITSHM=1
-ENV CATKIN_TOPLEVEL_WS="${workspace}/devel"
+
 
 ENV CONTAINER_NAME="${container_name}"
 
