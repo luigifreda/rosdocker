@@ -39,6 +39,7 @@ RUN git clone https://github.com/luigifreda/3dmr.git
 # the following to inform we are inside docker at build time 
 RUN sudo touch /.dockerenv 
 RUN cd 3dmr && ./install.sh 
+RUN rm -Rf 3dmr 
 
 # Switch back to root 
 USER root 
