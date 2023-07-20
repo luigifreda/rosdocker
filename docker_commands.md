@@ -1,6 +1,6 @@
 # Docker
 
-Start with this nice [demo](https://www.youtube.com/watch?v=XcJzOYe3E6M) then check the list of docker commands below.
+You can find a list of docker commands below. If you are new to docker then start with this nice [demo](https://www.youtube.com/watch?v=XcJzOYe3E6M).
 
 ## Commands 
 ### Containers 

@@ -1,12 +1,12 @@
 # rosdocker 
 ## 🤖 🐳
 
-This repository contains a set of tools for managing docker containers and (ROS) images with transparent support of **Nvidia drivers**. You can play with it to create your own custom docker containers. If you are new to docker or looking for a quick cheatsheet start [here](docker_commands.md).
+This repository contains a set of tools for managing docker containers and (ROS) images with transparent support of **Nvidia drivers**. You can play with it to create your own custom docker containers. A docker cheatsheet is available [here](docker_commands.md).
 
 **Main features**:
-- You can run a container and transparently attach many terminals to it: text and color of the bash prompt will inform you where you are. Try it!
-- Each container shares its network interface with the host.
+- Run a container and transparently attach many terminals to it: text and color of the bash prompt will inform you where you are. Try it!
 - GUIs can be run from each container terminal (Nvidia drivers are transparently managed). For instance, you can run `rviz` from a run container. 
+- Each container shares its network interface with the host.
 - Your favorite working folder is conveniently mounted into the docker containers when you run them. 
   
 ## Requirements
@@ -24,28 +24,28 @@ In the file [config.sh](./config.sh), set your favorite *working folder* `WORKIN
 
 ### Build and run  
 
-Build and run a container `<CONTAINER_NAME>`: 
-* Build the container     
-`$ ./build.sh <CONTAINER_NAME>`     
-* Run the container from a first terminal (that spawns the container)    
-`$ ./run.sh <CONTAINER_NAME>`     
-* Connect a new terminal to the same container    
-`$ ./run.sh <CONTAINER_NAME>`     
+Consider one of our [available dockerfiles](#available-images-and-dockerfiles) `Dockerfile_<NAME>`. 
+* Build the image:      
+`$ ./build.sh <NAME>`     
+* Run the container from a first terminal (this spawns the container)    
+`$ ./run.sh <NAME>`     
+* Open a new terminal and connect to the running container 
+`$ ./run.sh <NAME>`     
 * Stop the container     
-`$ ./stop.sh <CONTAINER_NAME>`     
+`$ ./stop.sh <NAME>`     
 
-For instance, if you want to run and build the `noetic` container (see [next section](#available-containers-and-dockerfiles) for available containers), then run:   
+For instance, if you want to build, run and stop the `noetic` container/image corresponding to `Dockerfile_noetic`, then run:   
 `$ ./build.sh noetic`     
 `$ ./run.sh noetic`    
 `$ ./stop.sh noetic`   
 
-**NOTE1**: When you update your Nvidia drivers, rebuild the container with the `build.sh` script. 
+**NOTE1**: When you update your Nvidia drivers, rebuild the image with the `build.sh` script. 
 
-**NOTE2**: any change made outside of our folder `WORKING_FOLDER_TO_MOUNT_IN_CONTAINER` from within the docker environment will not persist. If you want to add additional binary packages without having to reinstall them each time, add them to the Dockerfile and rebuild. This is a well known thing for docker users. 
+**NOTE2**: any change made outside of our folder `WORKING_FOLDER_TO_MOUNT_IN_CONTAINER` from within the docker environment will not persist. If you want to add additional binary packages without having to reinstall them each time, add them to the Dockerfile and rebuild. This is a well known rule for docker users. 
 
 ## Available Images and Dockerfiles 
 
-Each container `<CONTAINER_NAME>` listed below corresponds to a dockerfile: `Dockerfile_<CONTAINER_NAME>`. 
+Each image `<NAME>` listed below corresponds to a dockerfile: `Dockerfile_<NAME>`. 
 
 - `melodic` built on top of `ros:melodic-ros-base-bionic` (`ubuntu:18.04`)
 - `noetic` built on top of `ros:noetic-ros-base-focal` (`ubuntu:20.04`)
@@ -57,11 +57,11 @@ Each container `<CONTAINER_NAME>` listed below corresponds to a dockerfile: `Doc
 An old heritage:  
 - `tradr` (built on top of `ros:indigo`) (`ubuntu:14.04`) (it was used during the [TRADR](https://www.tradr-project.eu/) program)
 
-Now, you can easily add your new custom one. 
+Now, you can easily add your new custom docker file. 
 
 ## 3DMR 
 
-In order to run the `noetic_3dmr`container, which can host the [3DMR project](https://github.com/luigifreda/3dmr), check you are connected to the network and run:     
+In order to build and run the `noetic_3dmr` image/container, which can host the [3DMR project](https://github.com/luigifreda/3dmr), check you are connected to the network and run these commands:     
 `$ ./build.sh noetic`     
 `$ ./build.sh noetic_3dmr`      
 
