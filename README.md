@@ -29,7 +29,7 @@ Consider one of our [available dockerfiles](#available-images-and-dockerfiles) `
 `$ ./build.sh <NAME>`     
 * Run the container from a first terminal (this spawns the container)    
 `$ ./run.sh <NAME>`     
-* Open a new terminal and connect to the running container 
+* Open a new terminal and connect to the running container     
 `$ ./run.sh <NAME>`     
 * Stop the container     
 `$ ./stop.sh <NAME>`     
@@ -61,7 +61,7 @@ Now, you can easily add your new custom docker file.
 
 ## 3DMR 
 
-In order to build and run the `noetic_3dmr` image/container, which can host the [3DMR project](https://github.com/luigifreda/3dmr), check you are connected to the network and run these commands:     
+In order to build the `noetic_3dmr` image, which can host the [3DMR project](https://github.com/luigifreda/3dmr), check you are connected to the network and run these commands:     
 `$ ./build.sh noetic`     
 `$ ./build.sh noetic_3dmr`      
 
@@ -85,12 +85,12 @@ $ sudo service docker restart
 
 ## References
 
-* A cheatsheet is available in this repository: [here](docker_commands.md).
-* Nice intro/demo for docker 
+* I created a docker cheatsheet [here](docker_commands.md).
+* Nice intro/demo for docker:
   https://www.youtube.com/watch?v=XcJzOYe3E6M 
-* Install Nvidia container toolkit     
+* Install Nvidia container toolkit:   
   https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker 
-* Permission denied issue     
+* Permission denied issue:     
   https://phoenixnap.com/kb/docker-permission-denied
 * Nice cheatsheet/tutorials: 
   https://www.edureka.co/blog/docker-commands/#rm 
