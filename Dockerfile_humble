@@ -27,9 +27,6 @@ RUN apt-get install -y mesa-utils
 # Dependencies required to build rviz
 RUN apt-get install -y libqt5core5a libqt5dbus5 libqt5gui5 
 
-# ROS-desktop
-#RUN apt-get install -y ros-noetic-desktop-full
-
 # Additional development tools
 RUN apt-get install -y build-essential git
 
@@ -71,8 +68,9 @@ RUN \
 #RUN echo "${user} ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers 
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-RUN echo "${user}:docker" | chpasswd 
-RUN echo "root:docker" | chpasswd  # this allows to switch to user with $ su -
+RUN echo "${user}:docker" | chpasswd
+# this allows to switch to user with $ su - 
+RUN echo "root:docker" | chpasswd  
 
 # Switch to user
 USER "${user}"

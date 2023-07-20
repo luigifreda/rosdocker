@@ -52,6 +52,7 @@ else
     echo "Starting container $CONTAINER_NAME ..."
     
     # Below we use some of the options we set in the config.sh file 
+    
     # Create a permanent local "home" folder in the host and mount it as HOME folder in the container
     if [ $USE_LOCAL_HOME_FOLDER -eq 1 ]; then 
         LOCAL_HOME_FOLDER=`pwd`/"local_home_$CONTAINER_NAME"
@@ -62,14 +63,14 @@ else
         fi 
         # Mount the local "home" folder as new HOME in the container
         HOME_OPTIONS="-v "$LOCAL_HOME_FOLDER:$HOME":rw"
-        # Mount the $WORKING_FOLDER_TO_MOUNT_IN_CONTAINER as $WORKING_FOLDER_TO_MOUNT_IN_CONTAINER into the run container
-        # In this way, we can continue our work within the docker container.
-        HOME_OPTIONS+=" -v "$WORKING_FOLDER_TO_MOUNT_IN_CONTAINER":"$WORKING_FOLDER_TO_MOUNT_IN_CONTAINER":rw"
     #else
         # Mount the full home folder in the container
         #HOME_OPTIONS="-v "$HOME:$HOME":rw"
-        #HOME_OPTIONS+=" -v "$WORKING_FOLDER_TO_MOUNT_IN_CONTAINER":"$WORKING_FOLDER_TO_MOUNT_IN_CONTAINER":rw" 
     fi 
+    
+    # Mount the $WORKING_FOLDER_TO_MOUNT_IN_CONTAINER as $WORKING_FOLDER_TO_MOUNT_IN_CONTAINER into the run container
+    # In this way, we can continue our work within the docker container.
+    HOME_OPTIONS+=" -v "$WORKING_FOLDER_TO_MOUNT_IN_CONTAINER":"$WORKING_FOLDER_TO_MOUNT_IN_CONTAINER":rw"
 
     docker run -it --rm \
             --net=host\

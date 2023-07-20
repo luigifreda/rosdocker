@@ -18,7 +18,7 @@ Check you have installed the *[nvidia-docker-toolkit](https://docs.nvidia.com/da
 
 ### Configuration 
 
-In the file [config.sh](./config.sh), set your favorite *working folder* `WORKING_FOLDER_TO_MOUNT_IN_CONTAINER`. This folder will be mounted from the host into the run container so that we can continue our work within the container (and preserve our changes). By default:    
+In the file [config.sh](./config.sh), set your favorite *working folder* `WORKING_FOLDER_TO_MOUNT_IN_CONTAINER`. This folder will be mounted from the host into the run container so that we can conveniently work ont it and preserve changes. By default:    
 `WORKING_FOLDER_TO_MOUNT_IN_CONTAINER="$HOME/Work"`       
 
 

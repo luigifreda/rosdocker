@@ -74,8 +74,9 @@ RUN \
 #RUN echo "${user} ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers 
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
-RUN echo "${user}:docker" | chpasswd 
-RUN echo "root:docker" | chpasswd  # this allows to switch to user with $ su -
+RUN echo "${user}:docker" | chpasswd
+# this allows to switch to user with $ su - 
+RUN echo "root:docker" | chpasswd  
 
 # Switch to user
 USER "${user}"
