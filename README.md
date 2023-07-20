@@ -1,11 +1,11 @@
 # rosdocker 
 ## 🤖 🐳
 
-This repository contains a set of tools for managing docker containers and (ROS) images with transparent support of **Nvidia drivers**. You can play with it to create your own custom docker containers. A docker cheatsheet is available [here](docker_commands.md).
+This repository contains a set of tools that simplify the management of docker containers and (ROS) images with transparent support of NVIDIA drivers. You can play with it to create your own custom docker containers. A docker cheatsheet is available [here](docker_commands.md).
 
 **Main features**:
 - Run a container and transparently attach many terminals to it: text and color of the bash prompt will inform you where you are. Try it!
-- GUIs can be run from each container terminal (Nvidia drivers are transparently managed). For instance, you can run `rviz` from a run container. 
+- GUIs can be run from each container terminal (NVIDIA drivers are transparently managed). For instance, you can run `rviz` from a run container terminal. 
 - Each container shares its network interface with the host.
 - Your favorite working folder is conveniently mounted into the docker containers when you run them. 
   
