@@ -74,7 +74,7 @@ Next, from within the run container, get into the folder `$WORKING_FOLDER_TO_MOU
 
 To build the `pyslam` image, which can host [pyslam](https://github.com/luigifreda/pyslam), check you are connected to the network and run:  
 `$ ./build.sh pyslam`.      
-Then, open a terminal and run: 
+Then, open a terminal and run:      
 `$ ./run.sh pyslam`.      
 Now, withint the run container, you can find the `pyslam` folder ready to be used in `/tmp` .  
 
