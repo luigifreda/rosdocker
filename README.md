@@ -76,7 +76,7 @@ To build the `pyslam` image, which can host [pyslam](https://github.com/luigifre
 `$ ./build.sh pyslam`.      
 Then, open a terminal and run:      
 `$ ./run.sh pyslam`.      
-Now, withint the run container, you can find the `pyslam` folder ready to be used in `/tmp` .  
+Now, within the run container, you can find the `pyslam` folder ready to be used in `/tmp`.  
 
 ## Troubleshooting 
 
