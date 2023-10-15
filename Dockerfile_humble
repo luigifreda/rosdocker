@@ -32,7 +32,7 @@ RUN apt-get install -y build-essential git
 
 # Python 
 RUN apt-get install -y python3-pip
-RUN ln -s /usr/bin/python3 /usr/bin/python 
+RUN apt-get install -y python-is-python3 
 RUN pip3 install -U catkin_tools
 
 # ROS deps

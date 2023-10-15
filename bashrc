@@ -160,4 +160,4 @@ fi
 if [ -d /usr/local/V-REP_PRO_EDU_V3_5_0_Linux ]; then
     export VREP_ROOT_DIR=/usr/local/V-REP_PRO_EDU_V3_5_0_Linux
 fi 
-export VREP_ROOT_DIR=/usr/local/V-REP_PRO_EDU_V3_5_0_Linux
+

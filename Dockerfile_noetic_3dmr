@@ -1,4 +1,4 @@
-# first build a local noetic
+# first build a local noetic as detailed in the README 
 FROM noetic   
 
 # from https://varhowto.com/install-ros-noetic-docker/

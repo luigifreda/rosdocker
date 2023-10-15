@@ -51,6 +51,7 @@ Each image `<NAME>` listed below corresponds to a dockerfile: `Dockerfile_<NAME>
 - `noetic` built on top of `ros:noetic-ros-base-focal` (`ubuntu:20.04`)
 - `noetic_3dmr` built on top of the previous `noetic` and installing all the deps of [3DMR](https://github.com/luigifreda/3dmr.git))  (`ubuntu:20.04`)
 - `ubuntu20` built on top of `ubuntu:20.04` (no ROS)
+- `pyslam` built on top of `ubuntu:18.04` 
 - `humble`  built on the top of `ros:humble` (`ubuntu:22.04`)
 - `ubuntu22` built on top of `ubuntu:22.04` (no ROS)
   
@@ -68,6 +69,14 @@ In order to build the `noetic_3dmr` image, which can host the [3DMR project](htt
 Now, set your folder `$WORKING_FOLDER_TO_MOUNT_IN_CONTAINER` (see the [configuration](#configuration) section). From your host, open a terminal and clone the [3DMR](https://github.com/luigifreda/3dmr) project into `$WORKING_FOLDER_TO_MOUNT_IN_CONTAINER`. Then, run the container `noetic_3dmr`:    
 `$ ./run.sh noetic_3dmr`.      
 Next, from within the run container, get into the folder `$WORKING_FOLDER_TO_MOUNT_IN_CONTAINER`, and build the workspace (see the instructions and scripts in [3DMR](https://github.com/luigifreda/3dmr)). 
+
+## pyslam 
+
+To build the `pyslam` image, which can host [pyslam](https://github.com/luigifreda/pyslam), check you are connected to the network and run:  
+`$ ./build.sh pyslam`.
+Then, open a terminal and run: 
+`$ ./run.sh pyslam`.    
+Now, withint the run container, you can find the `pyslam` folder ready to be used in `/tmp` .  
 
 ## Troubleshooting 
 

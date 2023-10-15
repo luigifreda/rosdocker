@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:18.04
 
 # Arguments
 ARG user
@@ -15,10 +15,10 @@ LABEL maintainer="luigifreda@gmail.com"
 
 RUN apt-get -y update && apt-get -y dist-upgrade 
 RUN apt-get install -y tzdata apt-utils && DEBIAN_FRONTEND=noninteractive apt-get install -y keyboard-configuration
+RUN apt-get install -y git curl wget ca-certificates 
 
 # Basic Utilities 
-RUN apt-get install -y screen tree sudo ssh synaptic \
-aptitude gedit geany 
+RUN apt-get install -y screen tree sudo ssh synaptic aptitude gedit geany 
 
 # Latest X11 / mesa GL
 RUN apt-get install -y mesa-utils 
@@ -27,12 +27,11 @@ RUN apt-get install -y mesa-utils
 RUN apt-get install -y libqt5core5a libqt5dbus5 libqt5gui5 
 
 # Additional development tools
-RUN apt-get install -y build-essential git
+RUN apt-get install -y cmake build-essential git
 
 # Python 
-RUN apt-get install -y python3-pip
-RUN apt-get install -y python-is-python3 
-RUN pip3 install -U catkin_tools
+RUN apt-get install -y python3-pip 
+RUN ln -s /usr/bin/python3 /usr/bin/python 
 
 # ROS deps
 RUN apt-get install -y \
@@ -41,6 +40,10 @@ RUN apt-get install -y \
 doxygen \
 libssh2-1-dev \
 libudev-dev 
+
+# pyslam stuff 
+RUN apt-get install -y rsync python3-sdl2 python3-tk \
+    libprotobuf-dev libeigen3-dev libopencv-dev libsuitesparse-dev libglew-dev
 
 ################################
 
@@ -83,5 +86,18 @@ ENV CONTAINER_NAME="${container_name}"
 # Switch to the workspace
 WORKDIR ${workspace}
 
+################################
 
+# Install and configure git
+RUN sudo mkdir -p /home/${user}/.ssh && sudo chmod 0777 -R /home/${user}
+RUN touch ~/.gitconfig && touch ~/.ssh/known_hosts
+#RUN ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+RUN git config --global user.name "${user}"
+RUN git config --global user.email "${user}@${user}.com"
 
+# Install pyslam
+WORKDIR /tmp
+RUN git clone --recursive https://github.com/luigifreda/pyslam.git 
+# the following to inform we are inside docker at build time 
+RUN sudo touch /.dockerenv 
+RUN cd pyslam && ./install_all.sh 
