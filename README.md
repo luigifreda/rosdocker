@@ -47,6 +47,7 @@ For instance, if you want to build, run and stop the `noetic` container/image co
 
 Each image `<NAME>` listed below corresponds to a dockerfile: `Dockerfile_<NAME>`. 
 
+- `ubuntu18` built on top of `ubuntu:18.04` (no ROS)
 - `melodic` built on top of `ros:melodic-ros-base-bionic` (`ubuntu:18.04`)
 - `noetic` built on top of `ros:noetic-ros-base-focal` (`ubuntu:20.04`)
 - `noetic_3dmr` built on top of the previous `noetic` and installing all the deps of [3DMR](https://github.com/luigifreda/3dmr.git))  (`ubuntu:20.04`)
