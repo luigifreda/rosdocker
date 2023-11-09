@@ -1,4 +1,5 @@
-FROM ubuntu:20.04
+# from https://hub.docker.com/r/nvidia/cuda/tags?page=1&name=ubuntu20
+FROM nvidia/cuda:12.2.2-devel-ubuntu20.04  
 
 # Arguments
 ARG user
@@ -12,12 +13,35 @@ ARG container_name
 LABEL maintainer="luigifreda@gmail.com"
 
 ################################
+ENV ROS_DISTRO=noetic
 
+################################
+
+RUN apt-get -y update &&DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata apt-utils keyboard-configuration
+RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 RUN apt-get -y update && apt-get -y dist-upgrade 
-RUN apt-get install -y tzdata apt-utils && DEBIAN_FRONTEND=noninteractive apt-get install -y keyboard-configuration
+
+################################
+
+# add the ROS deb repo to the apt sources list
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+		curl \
+		wget \
+		gnupg2 \
+		lsb-release \
+		ca-certificates \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
+RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu focal main" | tee /etc/apt/sources.list.d/ros-focal.list'
+RUN apt-get -y install curl 
+RUN sh -c 'curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | apt-key add -'
+
+################################
 
 # Basic Utilities 
-RUN apt-get install -y screen tree sudo ssh synaptic aptitude gedit geany 
+RUN apt-get -y update && apt-get install -y screen tree sudo ssh synaptic aptitude gedit geany
 
 # Latest X11 / mesa GL
 RUN apt-get install -y mesa-utils 
@@ -26,7 +50,7 @@ RUN apt-get install -y mesa-utils
 RUN apt-get install -y libqt5core5a libqt5dbus5 libqt5gui5 
 
 # ROS-desktop
-#RUN apt-get install -y ros-noetic-desktop-full
+RUN apt-get install -y ros-noetic-desktop-full
 
 # Additional development tools
 RUN apt-get install -y build-essential git
@@ -43,6 +67,11 @@ RUN apt-get install -y \
 doxygen \
 libssh2-1-dev \
 libudev-dev 
+
+################
+
+SHELL ["/bin/bash", "-c"]
+RUN source /opt/ros/noetic/setup.bash
 
 ################################
 

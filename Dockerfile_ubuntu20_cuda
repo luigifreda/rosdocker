@@ -1,4 +1,5 @@
-FROM ubuntu:20.04
+# from https://hub.docker.com/r/nvidia/cuda/tags?page=1&name=ubuntu20
+FROM nvidia/cuda:12.2.2-devel-ubuntu20.04  
 
 # Arguments
 ARG user
@@ -13,11 +14,11 @@ LABEL maintainer="luigifreda@gmail.com"
 
 ################################
 
+RUN apt-get -y update &&DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata apt-utils keyboard-configuration
 RUN apt-get -y update && apt-get -y dist-upgrade 
-RUN apt-get install -y tzdata apt-utils && DEBIAN_FRONTEND=noninteractive apt-get install -y keyboard-configuration
 
 # Basic Utilities 
-RUN apt-get install -y screen tree sudo ssh synaptic aptitude gedit geany 
+RUN apt-get install -y screen tree sudo ssh synaptic aptitude gedit geany
 
 # Latest X11 / mesa GL
 RUN apt-get install -y mesa-utils 

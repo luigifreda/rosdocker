@@ -49,9 +49,11 @@ Each image `<NAME>` listed below corresponds to a dockerfile: `Dockerfile_<NAME>
 
 - `ubuntu18` built on top of `ubuntu:18.04` (no ROS)
 - `melodic` built on top of `ros:melodic-ros-base-bionic` (`ubuntu:18.04`)
-- `noetic` built on top of `ros:noetic-ros-base-focal` (`ubuntu:20.04`)
+- `noetic` built on top of `ros:noetic-ros-base-focal` (`ubuntu:20.04` with ROS)
+- `noetic_cuda` built on top of `nvidia/cuda:12.2.2-devel-ubuntu20.04` (`ubuntu:20.04` with ROS and CUDA)
 - `noetic_3dmr` built on top of the previous `noetic` and installing all the deps of [3DMR](https://github.com/luigifreda/3dmr.git))  (`ubuntu:20.04`)
 - `ubuntu20` built on top of `ubuntu:20.04` (no ROS)
+- `ubuntu20_cuda` built on top of `nvidia/cuda:12.2.2-devel-ubuntu20.04` (no ROS, with CUDA)
 - `pyslam` built on top of `ubuntu:18.04` 
 - `humble`  built on the top of `ros:humble` (`ubuntu:22.04`)
 - `ubuntu22` built on top of `ubuntu:22.04` (no ROS)
