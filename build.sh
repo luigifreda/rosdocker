@@ -2,6 +2,9 @@
 
 set -e 
 
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+SCRIPT_DIR=$(readlink -f $SCRIPT_DIR)  # this reads the actual path if a symbolic directory is used
+
 # Check args
 if [ "$#" -ne 1 ]; then
   echo "usage: ./build.sh CONTAINER_NAME"
@@ -12,11 +15,6 @@ export CONTAINER_NAME=$1
 
 source config.sh
 
-# Get this script's path
-pushd `dirname $0` > /dev/null
-SCRIPTPATH=`pwd`
-popd > /dev/null
-
 echo building container $CONTAINER_NAME with $DOCKER_FILE
 sleep 1
 
@@ -25,7 +23,7 @@ docker build -f "$DOCKER_FILE" --rm\
   --build-arg user=$USER\
   --build-arg uid=$UID\
   --build-arg home=$HOME\
-  --build-arg workspace=$SCRIPTPATH\
+  --build-arg workspace=$SCRIPT_DIR\
   --build-arg shell=$SHELL\
   --build-arg nvidia_driver_version="$NVIDIA_DRIVER_VERSION"\
   --build-arg container_name=$CONTAINER_NAME\

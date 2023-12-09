@@ -1,0 +1,46 @@
+
+#================================================
+# Additional settings 
+
+# NOTE: the CONTAINER_NAME env var is set from the used Dockerfile
+if [ ! -f /tmp/execWorks ]; then 
+	touch /tmp/execWorks
+	# personalize the new command line for the main docker launch
+	export PS1="\[\033[32m\][main_$CONTAINER_NAME]\[\033[00m\]$PS1"
+else
+	# personalize the new command line
+	export PS1="\[\033[34m\][$CONTAINER_NAME]\[\033[00m\]$PS1"
+fi
+
+# from https://coderwall.com/p/fasnya/add-git-branch-name-to-bash-prompt
+# Git branch in prompt.
+
+parse_git_branch() {
+     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+#export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ "
+PS_new=${PS1::-3}  # remove the final ' $'
+export PS1="$PS_new\[\033[32m\]\$(parse_git_branch)\[\033[00m\]$ "
+
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+if command -v pyenv 1>/dev/null 2>&1; then
+    eval "$(pyenv init -)"
+fi
+
+if [ -f /opt/ros/$ROS_DISTRO/setup.bash ]; then 
+    source /opt/ros/$ROS_DISTRO/setup.bash
+    export EDITOR='geany'  # for rosed
+fi 
+
+# ROS: set automatically ROS_IP
+#export ROS_IP=`ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/'`
+export ROS_IP_=`hostname -I | head -n1 | awk '{print $1}'`
+if [ "$ROS_IP_" != "" ]; then
+    export ROS_IP="$ROS_IP_"
+fi
+
+if [ -d /usr/local/V-REP_PRO_EDU_V3_5_0_Linux ]; then
+    export VREP_ROOT_DIR=/usr/local/V-REP_PRO_EDU_V3_5_0_Linux
+fi 
+

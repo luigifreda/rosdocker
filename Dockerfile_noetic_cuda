@@ -1,5 +1,5 @@
 # from https://hub.docker.com/r/nvidia/cuda/tags?page=1&name=ubuntu20
-FROM nvidia/cuda:12.2.2-devel-ubuntu20.04  
+FROM nvidia/cuda:11.6.1-devel-ubuntu20.04   
 
 # Arguments
 ARG user
@@ -88,6 +88,8 @@ EXPOSE 22
 # Mount the user's home directory
 VOLUME "${home}"
 
+RUN useradd ${user} -m -s ${shell} -u ${uid} -G sudo,dialout
+
 # Clone user into docker image and set up X11 sharing 
 RUN \
   echo "${user}:x:${uid}:${uid}:${user},,,:${home}:${shell}" >> /etc/passwd && \
@@ -114,5 +116,6 @@ ENV CONTAINER_NAME="${container_name}"
 # Switch to the workspace
 WORKDIR ${workspace}
 
-
+COPY ./bashrc_add ${home}/bashrc_add
+RUN cat ${home}/bashrc_add >> "${home}/.bashrc"
 

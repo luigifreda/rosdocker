@@ -82,7 +82,6 @@ else
             -v $XSOCK:$XSOCK:rw \
             -v $XAUTH:$XAUTH:rw \
             $HOME_OPTIONS \
-            -v $CONTAINER_BASHRC:$HOME/.bashrc \
             -v /usr/local/V-REP_PRO_EDU_V3_5_0_Linux:/usr/local/V-REP_PRO_EDU_V3_5_0_Linux \
             -v /media:/media -v /mnt:/mnt -v /dev:/dev  -v $HOME/.ssh:$HOME/.ssh \
             --gpus all -e NVIDIA_DRIVER_CAPABILITIES=all -e NVIDIA_VISIBLE_DEVICES=all --runtime=nvidia \

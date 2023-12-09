@@ -1,5 +1,20 @@
-# rosdocker 
-## 🤖 🐳
+# rosdocker  🤖 🐳
+
+<!-- TOC -->
+
+- [rosdocker  🤖 🐳](#rosdocker---)
+  - [Requirements](#requirements)
+  - [Usage](#usage)
+    - [Configuration](#configuration)
+    - [Build and run](#build-and-run)
+  - [Available Images and Dockerfiles](#available-images-and-dockerfiles)
+    - [3DMR](#3dmr)
+    - [pyslam](#pyslam)
+  - [Troubleshooting](#troubleshooting)
+  - [References](#references)
+  - [Credits](#credits)
+
+<!-- /TOC -->
 
 This repository contains a set of tools that simplify the management of docker containers and (ROS) images with transparent support of NVIDIA drivers. You can play with it to create your own custom docker containers. A docker cheatsheet is available [here](docker_commands.md).
 
@@ -51,10 +66,11 @@ Each image `<NAME>` listed below corresponds to a dockerfile: `Dockerfile_<NAME>
 - `melodic` built on top of `ros:melodic-ros-base-bionic` (`ubuntu:18.04`)
 - `noetic` built on top of `ros:noetic-ros-base-focal` (`ubuntu:20.04` with ROS)
 - `noetic_cuda` built on top of `nvidia/cuda:12.2.2-devel-ubuntu20.04` (`ubuntu:20.04` with ROS and CUDA)
-- `noetic_3dmr` built on top of the previous `noetic` and installing all the deps of [3DMR](https://github.com/luigifreda/3dmr.git))  (`ubuntu:20.04`)
+- `noetic_3dmr` built on top of the previous `noetic` and installing all the deps of [3DMR](https://github.com/luigifreda/3dmr.git)  (`ubuntu:20.04`)
 - `ubuntu20` built on top of `ubuntu:20.04` (no ROS)
 - `ubuntu20_cuda` built on top of `nvidia/cuda:12.2.2-devel-ubuntu20.04` (no ROS, with CUDA)
-- `pyslam` built on top of `ubuntu:18.04` 
+- `pyslam` built on top of `ubuntu:18.04`  and installing all the deps of [pyslam](https://github.com/luigifreda/pyslam)
+- `pyslam_cuda` built on top of `nvidia/cuda:12.1.0-devel-ubuntu18.04` and installing all the deps of [pyslam](https://github.com/luigifreda/pyslam) with CUDA support
 - `humble`  built on the top of `ros:humble` (`ubuntu:22.04`)
 - `ubuntu22` built on top of `ubuntu:22.04` (no ROS)
   
@@ -63,7 +79,7 @@ An old heritage:
 
 Now, you can easily add your new custom docker file. 
 
-## 3DMR 
+### 3DMR 
 
 In order to build the `noetic_3dmr` image, which can host the [3DMR project](https://github.com/luigifreda/3dmr), check you are connected to the network and run these commands:     
 `$ ./build.sh noetic`     
@@ -73,13 +89,17 @@ Now, set your folder `$WORKING_FOLDER_TO_MOUNT_IN_CONTAINER` (see the [configura
 `$ ./run.sh noetic_3dmr`.      
 Next, from within the run container, get into the folder `$WORKING_FOLDER_TO_MOUNT_IN_CONTAINER`, and build the workspace (see the instructions and scripts in [3DMR](https://github.com/luigifreda/3dmr)). 
 
-## pyslam 
+### pyslam 
 
-To build the `pyslam` image, which can host [pyslam](https://github.com/luigifreda/pyslam), check you are connected to the network and run:  
-`$ ./build.sh pyslam`.      
+To build the `pyslam` / `pyslam_cuda` image, which can host the [pyslam](https://github.com/luigifreda/pyslam) project, check you are connected to the network and run:  
+`$ ./build.sh pyslam`         
+or        
+`$ ./build.sh pyslam_cuda` if your system supports NVIDIA CUDA      
 Then, open a terminal and run:      
-`$ ./run.sh pyslam`.      
-Now, within the run container, you can find the `pyslam` folder ready to be used in `/tmp`.  
+`$ ./run.sh pyslam`       
+or         
+`$ ./run.sh pyslam_cuda` if you built the image with NVIDIA CUDA support.           
+Now, within the run container, you can find a copy of `pyslam` ready to be tested in your user's home folder.  
 
 ## Troubleshooting 
 
@@ -107,6 +127,8 @@ $ sudo service docker restart
 * Nice cheatsheet/tutorials: 
   https://www.edureka.co/blog/docker-commands/#rm 
   https://shisho.dev/blog/posts/docker-remove-cheatsheet/
+* NVIDIA CUDA and cuDNN images from gitlab.com/nvidia/cuda  
+  https://hub.docker.com/r/nvidia/cuda
 
 ## Credits 
 

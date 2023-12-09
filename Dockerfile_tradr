@@ -79,6 +79,8 @@ EXPOSE 22
 # Mount the user's home directory
 VOLUME "${home}"
 
+RUN useradd ${user} -m -s ${shell} -u ${uid} -G sudo,dialout
+
 # Clone user into docker image and set up X11 sharing 
 RUN \
   echo "${user}:x:${uid}:${uid}:${user},,,:${home}:${shell}" >> /etc/passwd && \
@@ -97,5 +99,5 @@ ENV CONTAINER_NAME="${container_name}"
 # Switch to the workspace
 WORKDIR ${workspace}
 
-
-
+COPY ./bashrc_tradr_add ${home}/bashrc_add
+RUN cat ${home}/bashrc_add >> "${home}/.bashrc"
