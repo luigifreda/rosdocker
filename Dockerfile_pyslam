@@ -8,13 +8,16 @@ ARG workspace
 ARG shell
 ARG nvidia_driver_version
 ARG container_name
+ARG timezone=Etc/UTC
 
 LABEL maintainer="luigifreda@gmail.com"
+
+ENV TZ=${timezone}
 
 ################################
 
 RUN apt-get -y update && apt-get -y dist-upgrade 
-RUN apt-get install -y tzdata apt-utils && DEBIAN_FRONTEND=noninteractive apt-get install -y keyboard-configuration
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata apt-utils keyboard-configuration
 RUN apt-get install -y git curl wget ca-certificates 
 
 # Basic Utilities 

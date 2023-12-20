@@ -9,8 +9,11 @@ ARG workspace
 ARG shell
 ARG nvidia_driver_version
 ARG container_name
+ARG timezone=Etc/UTC
 
 LABEL maintainer="luigifreda@gmail.com"
+
+ENV TZ=${timezone}
 
 ################################
 

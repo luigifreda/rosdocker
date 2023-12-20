@@ -1,4 +1,5 @@
-FROM ubuntu:18.04
+#from https://hub.docker.com/r/nvidia/cuda/tags?page=1&name=ubuntu22
+FROM nvidia/cuda:11.8.0-devel-ubuntu22.04
 
 # Arguments
 ARG user
@@ -20,7 +21,7 @@ RUN apt-get -y update && apt-get -y dist-upgrade
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata apt-utils keyboard-configuration
 
 # Basic Utilities 
-RUN apt-get install -y screen tree sudo ssh synaptic aptitude gedit geany 
+RUN apt-get install -y screen tree sudo ssh synaptic aptitude gedit geany
 
 # Latest X11 / mesa GL
 RUN apt-get install -y mesa-utils 
@@ -33,8 +34,8 @@ RUN apt-get install -y build-essential git
 
 # Python 
 RUN apt-get install -y python3-pip
-#RUN ln -s /usr/bin/python3 /usr/bin/python 
-#RUN pip3 install -U catkin_tools
+RUN apt-get install -y python-is-python3 
+RUN pip3 install -U catkin_tools
 
 # ROS deps
 RUN apt-get install -y \

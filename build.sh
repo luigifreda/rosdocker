@@ -27,4 +27,5 @@ docker build -f "$DOCKER_FILE" --rm\
   --build-arg shell=$SHELL\
   --build-arg nvidia_driver_version="$NVIDIA_DRIVER_VERSION"\
   --build-arg container_name=$CONTAINER_NAME\
+  --build-arg timezone=$(cat /etc/timezone)\
   -t $CONTAINER_NAME .

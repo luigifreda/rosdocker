@@ -73,13 +73,14 @@ Each image `<NAME>` listed below corresponds to a dockerfile: `Dockerfile_<NAME>
 - `pyslam_cuda` built on top of `nvidia/cuda:12.1.0-devel-ubuntu18.04` and installing all the deps of [pyslam](https://github.com/luigifreda/pyslam) with CUDA support
 - `humble`  built on the top of `ros:humble` (`ubuntu:22.04`)
 - `ubuntu22` built on top of `ubuntu:22.04` (no ROS)
+- `ubuntu22_cuda` built on top of `nvidia/cuda:11.8.0-devel-ubuntu22.04` (no ROS, with CUDA) 
   
 An old heritage:  
 - `tradr` (built on top of `ros:indigo`) (`ubuntu:14.04`) (it was used during the [TRADR](https://www.tradr-project.eu/) program)
 
 Now, you can easily add your new custom docker file. 
 
-### 3DMR 
+### 3DMR  
 
 In order to build the `noetic_3dmr` image, which can host the [3DMR project](https://github.com/luigifreda/3dmr), check you are connected to the network and run these commands:     
 `$ ./build.sh noetic`     
@@ -129,6 +130,7 @@ $ sudo service docker restart
   https://shisho.dev/blog/posts/docker-remove-cheatsheet/
 * NVIDIA CUDA and cuDNN images from gitlab.com/nvidia/cuda  
   https://hub.docker.com/r/nvidia/cuda
+* 
 
 ## Credits 
 
