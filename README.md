@@ -63,6 +63,7 @@ For instance, if you want to build, run and stop the `noetic` container/image co
 Each image `<NAME>` listed below corresponds to a dockerfile: `Dockerfile_<NAME>`. 
 
 - `ubuntu18` built on top of `ubuntu:18.04` (no ROS)
+- `ubuntu18_cuda` built on top of `nvidia/cuda:11.8.0-devel-ubuntu18.04` (no ROS)
 - `melodic` built on top of `ros:melodic-ros-base-bionic` (`ubuntu:18.04`)
 - `noetic` built on top of `ros:noetic-ros-base-focal` (`ubuntu:20.04` with ROS)
 - `noetic_cuda` built on top of `nvidia/cuda:12.2.2-devel-ubuntu20.04` (`ubuntu:20.04` with ROS and CUDA)
