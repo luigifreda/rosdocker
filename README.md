@@ -16,7 +16,7 @@
 
 <!-- /TOC -->
 
-This repository contains a set of tools that simplify the management of docker containers and (ROS) images with transparent support of NVIDIA drivers. You can play with it to create your own custom docker containers. A docker cheatsheet is available [here](docker_commands.md).
+This repository contains a set of tools that simplifies the management of docker containers and (ROS) images with transparent support of NVIDIA drivers. You can play with it to create your own custom docker containers, smoothly open many terminals connected to them, and move from one container to another one. A docker cheatsheet is available [here](docker_commands.md).
 
 **Main features**:
 - Run a container and transparently attach many terminals to it: text and color of the bash prompt will inform you where you are. Try it!
