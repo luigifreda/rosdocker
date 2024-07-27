@@ -24,6 +24,7 @@ This repository contains a set of tools that simplifies the management of docker
 - Each container shares its network interface with the host.
 - Your favorite working folder is conveniently mounted into the docker containers when you run them. 
   
+---
 ## Requirements
 
 Check you have installed the *[nvidia-docker-toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#tab-0-0-0)*:   
@@ -58,6 +59,7 @@ For instance, if you want to build, run and stop the `noetic` container/image co
 
 **NOTE2**: any change made outside of our folder `WORKING_FOLDER_TO_MOUNT_IN_CONTAINER` from within the docker environment will not persist. If you want to add additional binary packages without having to reinstall them each time, add them to the Dockerfile and rebuild. This is a well known rule for docker users. 
 
+---
 ## Available Images and Dockerfiles 
 
 Each image `<NAME>` listed below corresponds to a dockerfile: `Dockerfile_<NAME>`. 
@@ -70,8 +72,8 @@ Each image `<NAME>` listed below corresponds to a dockerfile: `Dockerfile_<NAME>
 - `noetic_3dmr` built on top of the previous `noetic` and installing all the deps of [3DMR](https://github.com/luigifreda/3dmr.git)  (`ubuntu:20.04`)
 - `ubuntu20` built on top of `ubuntu:20.04` (no ROS)
 - `ubuntu20_cuda` built on top of `nvidia/cuda:12.2.2-devel-ubuntu20.04` (no ROS, with CUDA)
-- `pyslam` built on top of `ubuntu:18.04`  and installing all the deps of [pyslam](https://github.com/luigifreda/pyslam)
-- `pyslam_cuda` built on top of `nvidia/cuda:12.1.0-devel-ubuntu18.04` and installing all the deps of [pyslam](https://github.com/luigifreda/pyslam) with CUDA support
+- `pyslam` built on top of `ubuntu:20.04`  and installing all the deps of [pyslam](https://github.com/luigifreda/pyslam) *=>* you can now pull the image from [here](https://github.com/users/luigifreda/packages/container/package/rosdocker)
+- `pyslam_cuda` built on top of `nvidia/cuda:12.1.0-devel-ubuntu20.04` and installing all the deps of [pyslam](https://github.com/luigifreda/pyslam) with CUDA support *=>* you can now pull the image from [here](https://github.com/users/luigifreda/packages/container/package/rosdocker)
 - `humble`  built on the top of `ros:humble` (`ubuntu:22.04`)
 - `ubuntu22` built on top of `ubuntu:22.04` (no ROS)
 - `ubuntu22_cuda` built on top of `nvidia/cuda:11.8.0-devel-ubuntu22.04` (no ROS, with CUDA) 
@@ -81,6 +83,7 @@ An old heritage:
 
 Now, you can easily add your new custom docker file. 
 
+---
 ### 3DMR  
 
 In order to build the `noetic_3dmr` image, which can host the [3DMR project](https://github.com/luigifreda/3dmr), check you are connected to the network and run these commands:     
@@ -91,6 +94,7 @@ Now, set your folder `$WORKING_FOLDER_TO_MOUNT_IN_CONTAINER` (see the [configura
 `$ ./run.sh noetic_3dmr`.      
 Next, from within the run container, get into the folder `$WORKING_FOLDER_TO_MOUNT_IN_CONTAINER`, and build the workspace (see the instructions and scripts in [3DMR](https://github.com/luigifreda/3dmr)). 
 
+---
 ### pyslam 
 
 To build the `pyslam` / `pyslam_cuda` image, which can host the [pyslam](https://github.com/luigifreda/pyslam) project, check you are connected to the network and run:  
@@ -101,8 +105,9 @@ Then, open a terminal and run:
 `$ ./run.sh pyslam`       
 or         
 `$ ./run.sh pyslam_cuda` if you built the image with NVIDIA CUDA support.           
-Now, within the run container, you can find a copy of `pyslam` ready to be tested in your user's home folder.  
+Now, within the run container, you can find a copy of `pyslam` ready to be used in your user's home folder.  
 
+---
 ## Troubleshooting 
 
 If you get the following error related to permission problems:
@@ -117,6 +122,7 @@ $ newgrp docker
 $ sudo service docker restart
 ``` 
 
+---
 ## References
 
 * I created a docker cheatsheet [here](docker_commands.md).
@@ -133,6 +139,7 @@ $ sudo service docker restart
   https://hub.docker.com/r/nvidia/cuda
 * 
 
+---
 ## Credits 
 
 This repository was initially inspired by https://github.com/jbohren/rosdocked. Thanks to its Author. I've been using and improving this repo in the background for years. Now, it's time to share it back.  

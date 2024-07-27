@@ -1,5 +1,5 @@
-# from https://hub.docker.com/r/nvidia/cuda/tags?page=1&name=ubuntu18
-FROM nvidia/cuda:12.1.0-devel-ubuntu18.04
+# from https://hub.docker.com/r/nvidia/cuda/tags?page=1&name=ubuntu20
+FROM nvidia/cuda:12.1.0-devel-ubuntu20.04
 
 # Arguments
 ARG user
@@ -103,10 +103,14 @@ RUN touch ~/.gitconfig && touch ~/.ssh/known_hosts
 #RUN ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 RUN git config --global user.name "${user}"
 RUN git config --global user.email "${user}@${user}.com"
+RUN git config --global http.proxy ""
 
 # Install pyslam
 WORKDIR ${home}
-RUN git clone --recursive https://github.com/luigifreda/pyslam.git 
+RUN echo "cloning and building pyslam repository"
+RUN git clone --recursive https://github.com/luigifreda/pyslam.git
 # the following to inform we are inside docker at build time 
 RUN sudo touch /.dockerenv 
-RUN cd pyslam && ./install_all.sh 
+ENV USER=${user}
+RUN cd pyslam && ./install_all_venv.sh 
+RUN /bin/bash -c "echo 'source pyslam/pyenv-activate.sh' >> ~/.bashrc"
