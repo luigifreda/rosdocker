@@ -35,6 +35,7 @@ RUN touch ~/.gitconfig && touch ~/.ssh/known_hosts
 #RUN ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 RUN git config --global user.name "${user}"
 RUN git config --global user.email "${user}@${user}.com"
+RUN git config --global http.proxy ""
 
 # Install 3dmr
 WORKDIR /tmp

@@ -3,16 +3,16 @@
 <!-- TOC -->
 
 - [rosdocker  🤖 🐳](#rosdocker---)
-  - [Requirements](#requirements)
-  - [Usage](#usage)
-    - [Configuration](#configuration)
-    - [Build and run](#build-and-run)
-  - [Available Images and Dockerfiles](#available-images-and-dockerfiles)
-    - [3DMR](#3dmr)
-    - [pyslam](#pyslam)
-  - [Troubleshooting](#troubleshooting)
-  - [References](#references)
-  - [Credits](#credits)
+    - [1. Requirements](#1-requirements)
+    - [2. Usage](#2-usage)
+        - [2.1. Configuration](#21-configuration)
+        - [2.2. Build and run](#22-build-and-run)
+    - [3. Available Images and Dockerfiles](#3-available-images-and-dockerfiles)
+        - [3.1. DMR](#31-dmr)
+        - [3.2. pyslam](#32-pyslam)
+    - [4. Troubleshooting](#4-troubleshooting)
+    - [5. References](#5-references)
+    - [6. Credits](#6-credits)
 
 <!-- /TOC -->
 

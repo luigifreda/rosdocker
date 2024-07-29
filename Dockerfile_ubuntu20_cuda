@@ -1,5 +1,5 @@
 # https://hub.docker.com/r/nvidia/cuda/tags?page=1&name=ubuntu20
-FROM nvidia/cuda:11.6.1-devel-ubuntu20.04  
+FROM nvidia/cuda:11.8.0-devel-ubuntu20.04  
 
 # Arguments
 ARG user

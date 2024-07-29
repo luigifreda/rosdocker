@@ -106,7 +106,7 @@ RUN git config --global http.proxy ""
 
 # Install pyslam
 WORKDIR ${home}
-RUN echo "cloning and building pyslam repository"
+RUN echo "cloning and building pyslam repository in ${home}"
 RUN git clone --recursive https://github.com/luigifreda/pyslam.git
 # the following to inform we are inside docker at build time 
 RUN sudo touch /.dockerenv 
