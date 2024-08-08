@@ -1,0 +1,104 @@
+FROM ubuntu:24.04
+
+# Arguments
+ARG user
+ARG uid
+ARG home
+ARG workspace
+ARG shell
+ARG nvidia_driver_version
+ARG container_name
+ARG timezone=Etc/UTC
+
+LABEL maintainer="luigifreda@gmail.com"
+
+ENV TZ=${timezone}
+
+################################
+
+RUN apt-get -y update && apt-get -y dist-upgrade 
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata apt-utils keyboard-configuration
+
+# Basic Utilities 
+RUN apt-get install -y screen tree sudo ssh synaptic aptitude gedit geany
+
+# Latest X11 / mesa GL
+RUN apt-get install -y mesa-utils 
+
+# Dependencies required to build rviz
+RUN apt-get install -y libqt5core5a libqt5dbus5 libqt5gui5 
+
+# Additional development tools
+RUN apt-get install -y build-essential git
+
+# Python 
+RUN apt-get install -y python3-pip
+RUN apt-get install -y python-is-python3 
+#RUN pip3 install -U catkin_tools
+
+# ROS deps
+RUN apt-get install -y \
+#python-rosinstall \
+#python-jinja2 \
+doxygen \
+libssh2-1-dev \
+libudev-dev 
+
+################################
+
+# from  http://wiki.ros.org/docker/Tutorials/Hardware%20Acceleration  (with nvidia-docker2)
+# nvidia-container-runtime
+ENV NVIDIA_VISIBLE_DEVICES \
+    ${NVIDIA_VISIBLE_DEVICES:-all}
+ENV NVIDIA_DRIVER_CAPABILITIES \
+    ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
+
+# Make SSH available
+EXPOSE 22
+
+# Mount the user's home directory
+VOLUME "${home}"
+
+# Under ubuntu 24.04 we have a user ubuntu with uid equal to ${user}
+# Let's check if we have a user with uid==${uid}. If yes, we rename it. Otherwise we add a new one.
+RUN if id -u "${uid}" &> /dev/null; then \
+    existent_user=$(getent passwd ${uid} | cut -d: -f1); \
+    sudo usermod -l ${user} $existent_user; \
+    sudo usermod -d /home/${user} -m ${user}; \
+    sudo groupmod -n ${user} $existent_user; \
+    sudo usermod -aG sudo ${user}; \
+    sudo usermod -aG dialout ${user}; \
+else \
+    useradd ${user} -m -s ${shell} -u ${uid} -G sudo,dialout; \
+fi
+
+# Clone user into docker image and set up X11 sharing 
+RUN \
+  echo "${user}:x:${uid}:${uid}:${user},,,:${home}:${shell}" >> /etc/passwd && \
+  echo "${user}:x:${uid}:" >> /etc/group && \
+  echo "${user} ALL=(ALL) NOPASSWD: ALL" > "/etc/sudoers.d/${user}" && \
+  chmod 0440 "/etc/sudoers.d/${user}"
+
+#RUN echo "${user} ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers 
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+RUN echo "${user}:docker" | chpasswd 
+# this allows to switch to user with $ su -
+RUN echo "root:docker" | chpasswd  
+
+# Switch to user
+USER "${user}"
+
+# This is required for sharing Xauthority
+ENV QT_X11_NO_MITSHM=1
+
+
+ENV CONTAINER_NAME="${container_name}"
+
+# Switch to the workspace
+WORKDIR ${workspace}
+
+COPY ./bashrc_add ${home}/bashrc_add
+RUN cat ${home}/bashrc_add >> "${home}/.bashrc"
+
+

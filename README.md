@@ -3,16 +3,16 @@
 <!-- TOC -->
 
 - [rosdocker  🤖 🐳](#rosdocker---)
-    - [1. Requirements](#1-requirements)
-    - [2. Usage](#2-usage)
-        - [2.1. Configuration](#21-configuration)
-        - [2.2. Build and run](#22-build-and-run)
-    - [3. Available Images and Dockerfiles](#3-available-images-and-dockerfiles)
-        - [3.1. DMR](#31-dmr)
-        - [3.2. pyslam](#32-pyslam)
-    - [4. Troubleshooting](#4-troubleshooting)
-    - [5. References](#5-references)
-    - [6. Credits](#6-credits)
+  - [Requirements](#requirements)
+  - [Usage](#usage)
+    - [Configuration](#configuration)
+    - [Build and run](#build-and-run)
+  - [Available Images and Dockerfiles](#available-images-and-dockerfiles)
+    - [3DMR](#3dmr)
+    - [pyslam](#pyslam)
+  - [Troubleshooting](#troubleshooting)
+  - [References](#references)
+  - [Credits](#credits)
 
 <!-- /TOC -->
 
@@ -20,9 +20,9 @@ This repository contains a set of tools that simplifies the management of docker
 
 **Main features**:
 - Run a container and transparently attach many terminals to it: text and color of the bash prompt will inform you where you are. Try it!
-- GUIs can be run from each container terminal (NVIDIA drivers are transparently managed). For instance, you can run `rviz` from a run container terminal. 
+- Applications with a GUI can be smoothly run from each container terminal (NVIDIA drivers are transparently managed). For instance, you can run `rviz` from a run container terminal without any issue. 
 - Each container shares its network interface with the host.
-- Your favorite working folder is conveniently mounted into the docker containers when you run them. 
+- Your favorite working folder is conveniently mounted into the docker containers when you run them and you can easily build and run applications from there. 
   
 ---
 ## Requirements
@@ -77,6 +77,8 @@ Each image `<NAME>` listed below corresponds to a dockerfile: `Dockerfile_<NAME>
 - `humble`  built on the top of `ros:humble` (`ubuntu:22.04`)
 - `ubuntu22` built on top of `ubuntu:22.04` (no ROS)
 - `ubuntu22_cuda` built on top of `nvidia/cuda:11.8.0-devel-ubuntu22.04` (no ROS, with CUDA) 
+- `ubuntu24` built on top of `ubuntu:24.04` (no ROS)
+- `ubuntu24_cuda` built on top of `nvidia/cuda:12.5.1-devel-ubuntu24.04` (no ROS, with CUDA) 
   
 An old heritage:  
 - `tradr` (built on top of `ros:indigo`) (`ubuntu:14.04`) (it was used during the [TRADR](https://www.tradr-project.eu/) program)

@@ -72,8 +72,13 @@ else
     # In this way, we can continue our work within the docker container.
     HOME_OPTIONS+=" -v "$WORKING_FOLDER_TO_MOUNT_IN_CONTAINER":"$WORKING_FOLDER_TO_MOUNT_IN_CONTAINER":rw"
 
+    user_id=$(id -u)
+    group_id=$(id -g)
+    UID_OPTIONS="-u $user_id:$group_id"
+
     docker run -it --rm \
-            --net=host\
+            --net=host \
+            --privileged $UID_OPTIONS \
             -e SHELL \
             -e USER \
             -e DISPLAY \
@@ -82,10 +87,8 @@ else
             -v $XSOCK:$XSOCK:rw \
             -v $XAUTH:$XAUTH:rw \
             $HOME_OPTIONS \
-            -v /usr/local/V-REP_PRO_EDU_V3_5_0_Linux:/usr/local/V-REP_PRO_EDU_V3_5_0_Linux \
             -v /media:/media -v /mnt:/mnt -v /dev:/dev  -v $HOME/.ssh:$HOME/.ssh \
             --gpus all -e NVIDIA_DRIVER_CAPABILITIES=all -e NVIDIA_VISIBLE_DEVICES=all --runtime=nvidia \
-            --privileged \
             --name $CONTAINER_NAME \
       $1 $SHELL
 fi 
