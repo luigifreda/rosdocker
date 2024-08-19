@@ -1,0 +1,91 @@
+FROM ubuntu:20.04
+
+# Arguments
+ARG user
+ARG uid
+ARG home
+ARG workspace
+ARG shell
+ARG nvidia_driver_version
+ARG container_name
+ARG timezone=Etc/UTC
+
+LABEL maintainer="luigifreda@gmail.com"
+
+ENV TZ=${timezone}
+
+################################
+
+RUN apt-get -y update && apt-get -y dist-upgrade 
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata apt-utils keyboard-configuration
+
+# Basic Utilities 
+RUN apt-get install -y screen tree sudo ssh synaptic aptitude 
+
+# Latest X11 / mesa GL
+RUN apt-get install -y mesa-utils 
+
+RUN apt-get install -y wget 
+
+
+################################
+
+# from  http://wiki.ros.org/docker/Tutorials/Hardware%20Acceleration  (with nvidia-docker2)
+# nvidia-container-runtime
+ENV NVIDIA_VISIBLE_DEVICES \
+    ${NVIDIA_VISIBLE_DEVICES:-all}
+ENV NVIDIA_DRIVER_CAPABILITIES \
+    ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
+
+# Make SSH available
+EXPOSE 22
+
+# Mount the user's home directory
+VOLUME "${home}"
+
+RUN useradd ${user} -m -s ${shell} -u ${uid} -G sudo,dialout
+
+# Clone user into docker image and set up X11 sharing 
+RUN \
+  echo "${user}:x:${uid}:${uid}:${user},,,:${home}:${shell}" >> /etc/passwd && \
+  echo "${user}:x:${uid}:" >> /etc/group && \
+  echo "${user} ALL=(ALL) NOPASSWD: ALL" > "/etc/sudoers.d/${user}" && \
+  chmod 0440 "/etc/sudoers.d/${user}"
+
+#RUN echo "${user} ALL=(ALL:ALL) NOPASSWD:ALL" >> /etc/sudoers 
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+RUN echo "${user}:docker" | chpasswd 
+# this allows to switch to user with $ su -
+RUN echo "root:docker" | chpasswd  
+
+# Switch to user
+USER "${user}"
+
+# This is required for sharing Xauthority
+ENV QT_X11_NO_MITSHM=1
+
+
+ENV CONTAINER_NAME="${container_name}"
+
+# Switch to the workspace
+WORKDIR ${workspace}
+
+COPY ./bashrc_add ${home}/bashrc_add
+RUN cat ${home}/bashrc_add >> "${home}/.bashrc"
+
+
+# Install and configure git
+RUN sudo apt-get install -y git
+RUN sudo mkdir -p /home/${user}/.ssh && sudo chmod 0777 -R /home/${user}
+RUN touch ~/.gitconfig && touch ~/.ssh/known_hosts
+#RUN ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+RUN git config --global user.name "${user}"
+RUN git config --global user.email "${user}@${user}.com"
+RUN git config --global http.proxy ""
+
+# Install conda 
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh 
+RUN bash ~/miniconda.sh -b -u -p ~/miniconda3 &&\
+    rm ~/miniconda.sh &&\
+    ~/miniconda3/bin/conda init bash

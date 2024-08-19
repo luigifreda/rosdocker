@@ -71,6 +71,7 @@ Each image `<NAME>` listed below corresponds to a dockerfile: `Dockerfile_<NAME>
 - `noetic_cuda` built on top of `nvidia/cuda:12.2.2-devel-ubuntu20.04` (`ubuntu:20.04` with ROS and CUDA)
 - `noetic_3dmr` built on top of the previous `noetic` and installing all the deps of [3DMR](https://github.com/luigifreda/3dmr.git)  (`ubuntu:20.04`)
 - `ubuntu20` built on top of `ubuntu:20.04` (no ROS)
+- `ubuntu20_conda` built on top of `ubuntu:20.04` with `conda` for managing python (no ROS)
 - `ubuntu20_cuda` built on top of `nvidia/cuda:12.2.2-devel-ubuntu20.04` (no ROS, with CUDA)
 - `pyslam` built on top of `ubuntu:20.04`  and installing all the deps of [pyslam](https://github.com/luigifreda/pyslam) *=>* you can now pull the image from [here](https://github.com/users/luigifreda/packages/container/package/rosdocker)
 - `pyslam_cuda` built on top of `nvidia/cuda:12.1.0-devel-ubuntu20.04` and installing all the deps of [pyslam](https://github.com/luigifreda/pyslam) with CUDA support *=>* you can now pull the image from [here](https://github.com/users/luigifreda/packages/container/package/rosdocker)
