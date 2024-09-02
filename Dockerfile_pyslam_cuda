@@ -48,6 +48,7 @@ libudev-dev
 # pyslam stuff 
 RUN apt-get install -y rsync python3-sdl2 python3-tk \
     libprotobuf-dev libeigen3-dev libopencv-dev libsuitesparse-dev libglew-dev
+RUN apt-get install -y libhdf5-dev   # needed when building h5py wheel from src is required (arm64)
 
 ################################
 
@@ -104,13 +105,14 @@ RUN touch ~/.gitconfig && touch ~/.ssh/known_hosts
 RUN git config --global user.name "${user}"
 RUN git config --global user.email "${user}@${user}.com"
 RUN git config --global http.proxy ""
+RUN sudo git config --system --add safe.directory '*' # to avoid "detected dubious ownership" error
 
 # Install pyslam
 WORKDIR ${home}
 RUN echo "cloning and building pyslam repository in ${home}"
-RUN git clone --recursive https://github.com/luigifreda/pyslam.git
 # the following to inform we are inside docker at build time 
 RUN sudo touch /.dockerenv 
+RUN git clone --recursive https://github.com/luigifreda/pyslam.git
 ENV USER=${user}
 RUN cd pyslam && ./install_all_venv.sh 
 RUN /bin/bash -c "echo 'source pyslam/pyenv-activate.sh' >> ~/.bashrc"

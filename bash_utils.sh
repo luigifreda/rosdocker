@@ -26,6 +26,12 @@ function extract_version(){
 }
 
 function get_current_nvidia_driver_version(){
+    # check if nvidia-smi is installed
+    if ! command -v nvidia-smi &> /dev/null; then
+        echo ""
+        return
+    fi
+
     NVIDIA_DRIVER_STRING=$(nvidia-smi --query-gpu=driver_version --format=csv,noheader)
     NVIDIA_DRIVER_VERSION=$(extract_version "$NVIDIA_DRIVER_STRING")
     echo "$NVIDIA_DRIVER_VERSION"
