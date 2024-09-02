@@ -26,7 +26,9 @@ echo USE_LOCAL_HOME_FOLDER: $USE_LOCAL_HOME_FOLDER
 # $ nvidia-smi --query-gpu=driver_version --format=csv,noheader
 # The following variable is automatically set and must correctly reflect the currently used nvidia driver
 export NVIDIA_DRIVER_VERSION=$(get_current_nvidia_driver_version)
-echo Using NVIDIA DRIVER: $NVIDIA_DRIVER_VERSION
+if [[ "${NVIDIA_DRIVER_VERSION}" != "" ]]; then
+    echo Using NVIDIA DRIVER: $NVIDIA_DRIVER_VERSION
+fi 
 
 # Set default container name if it wasn't set up
 if [[ -z "${CONTAINER_NAME}" ]]; then
