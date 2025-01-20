@@ -59,6 +59,7 @@ function update_docker_commit_and_push(){
     echo "quitting docker container $docker_container running under screen session $docker_container..."
     screen -XS $docker_container quit
 }
+
 # clear all screen sessions
 killall screen; screen -wipe
 

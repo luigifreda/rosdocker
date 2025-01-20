@@ -11,6 +11,8 @@
     - [3DMR](#3dmr)
     - [pyslam](#pyslam)
   - [Troubleshooting](#troubleshooting)
+    - [docker: Error response from daemon: could not select device driver with capabilities: gpu](#docker-error-response-from-daemon-could-not-select-device-driver-with-capabilities-gpu)
+    - [Permissions problems](#permissions-problems)
   - [References](#references)
   - [Credits](#credits)
 
@@ -113,6 +115,12 @@ Now, within the run container, you can find a copy of `pyslam` ready to be used 
 ---
 ## Troubleshooting 
 
+### docker: Error response from daemon: could not select device driver with capabilities: gpu
+
+It might be a good time to install the *[nvidia-docker-toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#tab-0-0-0)* as suggested above. 
+
+### Permissions problems
+
 If you get the following error related to permission problems:
 ```
 Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Post ": dial unix /var/run/docker.sock: connect: permission denied
@@ -140,7 +148,6 @@ $ sudo service docker restart
   https://shisho.dev/blog/posts/docker-remove-cheatsheet/
 * NVIDIA CUDA and cuDNN images from gitlab.com/nvidia/cuda  
   https://hub.docker.com/r/nvidia/cuda
-* 
 
 ---
 ## Credits 
