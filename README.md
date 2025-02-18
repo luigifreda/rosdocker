@@ -80,6 +80,7 @@ Each image `<NAME>` listed below corresponds to a dockerfile: `Dockerfile_<NAME>
 - `humble`  built on the top of `ros:humble` (`ubuntu:22.04`)
 - `ubuntu22` built on top of `ubuntu:22.04` (no ROS)
 - `ubuntu22_cuda` built on top of `nvidia/cuda:11.8.0-devel-ubuntu22.04` (no ROS, with CUDA) 
+- `ubuntu22_cuda_conda` built on top of `nvidia/cuda:11.8.0-devel-ubuntu22.04` with `conda` (no ROS, with CUDA) 
 - `ubuntu24` built on top of `ubuntu:24.04` (no ROS)
 - `ubuntu24_cuda` built on top of `nvidia/cuda:12.5.1-devel-ubuntu24.04` (no ROS, with CUDA) 
   
