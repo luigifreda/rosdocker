@@ -31,6 +31,9 @@ case "$OSTYPE" in
     ;;
 esac
 
+# NOTE: Uncomment the following line to get more info/feedback at build time
+#PROGRESS_ARG="--progress=plain"
+
 # Build the docker image (update the nvidia driver version if needed)
 docker build -f "$DOCKER_FILE" --rm\
   --build-arg user=$USER\
@@ -41,4 +44,6 @@ docker build -f "$DOCKER_FILE" --rm\
   --build-arg nvidia_driver_version="$NVIDIA_DRIVER_VERSION"\
   --build-arg container_name=$CONTAINER_NAME\
   --build-arg timezone=$TIMEZONE\
-  -t $CONTAINER_NAME .
+  -t $CONTAINER_NAME $PROGRESS_ARG .
+
+

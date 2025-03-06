@@ -108,10 +108,10 @@ RUN sudo git config --system --add safe.directory '*' # to avoid "detected dubio
 
 # Install pyslam
 WORKDIR ${home}
-RUN echo "cloning and building pyslam repository in ${home}"
 # the following to inform we are inside docker at build time 
 RUN sudo touch /.dockerenv 
-RUN git clone --recursive https://github.com/luigifreda/pyslam.git
 ENV USER=${user}
-RUN cd pyslam && ./install_all_venv.sh 
+RUN echo "Cloning and building pyslam repository in ${home}"
+RUN git clone --recursive --progress https://github.com/luigifreda/pyslam.git
+RUN cd pyslam && ./install_all.sh 
 RUN /bin/bash -c "echo 'source pyslam/pyenv-activate.sh' >> ~/.bashrc"
