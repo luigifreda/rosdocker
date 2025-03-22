@@ -29,9 +29,13 @@ RUN apt-get install -y git curl wget ca-certificates
 # Switch to user
 USER "${user}"
 
+RUN sudo chown -R ${user}:${user} ${home} && sudo chmod -R u+rwx ${home}
+
 # Install and configure git
 RUN sudo mkdir -p /home/${user}/.ssh && sudo chmod 0777 -R /home/${user}
-RUN touch ~/.gitconfig && touch ~/.ssh/known_hosts
+#RUN touch ~/.gitconfig && touch ~/.ssh/known_hosts
+RUN sudo touch ${home}/.gitconfig && sudo chown ${user}:${user} ${home}/.gitconfig && sudo chmod 644 ${home}/.gitconfig
+RUN sudo touch ${home}/.ssh/known_hosts && sudo chown ${user}:${user} ${home}/.ssh/known_hosts && sudo chmod 644 ${home}/.ssh/known_hosts
 #RUN ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
 RUN git config --global user.name "${user}"
 RUN git config --global user.email "${user}@${user}.com"
