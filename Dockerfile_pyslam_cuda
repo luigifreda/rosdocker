@@ -119,3 +119,14 @@ RUN echo "Cloning and building pyslam repository in ${home}"
 RUN git clone --recursive --progress https://github.com/luigifreda/pyslam.git
 RUN cd pyslam && ./install_all.sh 
 RUN /bin/bash -c "echo 'source pyslam/pyenv-activate.sh' >> ~/.bashrc"
+
+
+# Create an entrypoint that dynamically sets XDG_RUNTIME_DIR
+RUN echo '#!/bin/bash\n' \
+         'export XDG_RUNTIME_DIR=/tmp/runtime-$(id -u)\n' \
+         'mkdir -p "$XDG_RUNTIME_DIR"\n' \
+         'chmod 700 "$XDG_RUNTIME_DIR"\n' \
+         'exec "$@"' > /usr/local/bin/entrypoint.sh && \
+    chmod +x /usr/local/bin/entrypoint.sh
+# Set the entrypoint
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
