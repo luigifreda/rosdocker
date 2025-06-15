@@ -21,7 +21,7 @@ RUN apt-get -y update && apt-get -y dist-upgrade
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata apt-utils keyboard-configuration
 
 # Basic Utilities 
-RUN apt-get install -y screen tree sudo ssh synaptic aptitude gedit geany
+RUN apt-get -y update && apt-get install -y screen tree sudo ssh synaptic aptitude gedit geany
 
 # Latest X11 / mesa GL
 RUN apt-get install -y mesa-utils 

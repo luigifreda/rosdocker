@@ -17,7 +17,8 @@ ENV TZ=${timezone}
 
 ################################
 
-RUN apt-get -y update && apt-get -y dist-upgrade 
+RUN apt-get -y update 
+# && apt-get -y dist-upgrade 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata apt-utils keyboard-configuration
 RUN apt-get install -y git curl wget ca-certificates 
 
@@ -115,18 +116,21 @@ WORKDIR ${home}
 # the following to inform we are inside docker at build time 
 RUN sudo touch /.dockerenv 
 ENV USER=${user}
-RUN echo "Cloning and building pyslam repository in ${home}"
+RUN echo "Cloning and building pyslam repository in ${home} (with CUDA support)"
 RUN git clone --recursive --progress https://github.com/luigifreda/pyslam.git
 RUN cd pyslam && ./install_all.sh 
 RUN /bin/bash -c "echo 'source pyslam/pyenv-activate.sh' >> ~/.bashrc"
 
 
 # Create an entrypoint that dynamically sets XDG_RUNTIME_DIR
-RUN echo '#!/bin/bash\n' \
-         'export XDG_RUNTIME_DIR=/tmp/runtime-$(id -u)\n' \
-         'mkdir -p "$XDG_RUNTIME_DIR"\n' \
-         'chmod 700 "$XDG_RUNTIME_DIR"\n' \
-         'exec "$@"' > /usr/local/bin/entrypoint.sh && \
-    chmod +x /usr/local/bin/entrypoint.sh
+RUN sudo touch /usr/local/bin/entrypoint.sh && sudo chmod 0777 /usr/local/bin/entrypoint.sh
+RUN printf '#!/bin/bash\n\
+export XDG_RUNTIME_DIR=/tmp/runtime-$(id -u)\n\
+mkdir -p "$XDG_RUNTIME_DIR"\n\
+chmod 700 "$XDG_RUNTIME_DIR"\n\
+exec "$@"\n' > /usr/local/bin/entrypoint.sh && \
+sudo chmod +x /usr/local/bin/entrypoint.sh
+
 # Set the entrypoint
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["bash"]
