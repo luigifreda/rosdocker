@@ -1,5 +1,5 @@
 # from https://hub.docker.com/r/nvidia/cuda/tags?page=1&name=ubuntu20
-FROM nvidia/cuda:12.1.0-devel-ubuntu20.04
+FROM nvidia/cuda:12.1.0-devel-ubuntu20.04 AS base
 
 # Arguments
 ARG user
@@ -20,36 +20,31 @@ ENV TZ=${timezone}
 RUN apt-get -y update 
 # && apt-get -y dist-upgrade 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata apt-utils keyboard-configuration
-RUN apt-get install -y git curl wget ca-certificates 
+RUN apt-get install -y git curl wget ca-certificates --no-install-recommends
 
 # Basic Utilities 
-RUN apt-get install -y screen tree sudo ssh synaptic aptitude gedit geany 
+RUN apt-get install -y screen tree sudo ssh synaptic aptitude gedit geany --no-install-recommends
 
 # Latest X11 / mesa GL
-RUN apt-get install -y mesa-utils 
+RUN apt-get install -y mesa-utils --no-install-recommends
 
 # Dependencies required to build rviz
-RUN apt-get install -y libqt5core5a libqt5dbus5 libqt5gui5 
+RUN apt-get install -y libqt5core5a libqt5dbus5 libqt5gui5 --no-install-recommends
 
 # Additional development tools
-RUN apt-get install -y cmake build-essential git
+RUN apt-get install -y cmake build-essential git --no-install-recommends
 
 # Python 
-RUN apt-get install -y python3-pip 
+RUN apt-get install -y python3-pip --no-install-recommends
 RUN ln -s /usr/bin/python3 /usr/bin/python 
 
 # ROS deps
-RUN apt-get install -y \
-#python-rosinstall \
-#python-jinja2 \
-doxygen \
-libssh2-1-dev \
-libudev-dev 
+RUN apt-get install -y doxygen libssh2-1-dev libudev-dev --no-install-recommends 
 
 # pyslam stuff 
 RUN apt-get install -y rsync python3-sdl2 python3-tk \
-    libprotobuf-dev libeigen3-dev libopencv-dev libsuitesparse-dev libglew-dev
-RUN apt-get install -y libhdf5-dev   # needed when building h5py wheel from src is required (arm64)
+    libprotobuf-dev libeigen3-dev libopencv-dev libsuitesparse-dev libglew-dev --no-install-recommends
+RUN apt-get install -y libhdf5-dev --no-install-recommends   # needed when building h5py wheel from src is required (arm64)
 
 ################################
 
@@ -99,6 +94,7 @@ RUN sudo touch ${home}/.bashrc && sudo chown ${user}:${user} ${home}/.bashrc && 
 RUN cat ${home}/bashrc_add >> "${home}/.bashrc"
 
 ################################
+FROM base AS final
 
 # Install and configure git
 RUN sudo mkdir -p /home/${user}/.ssh && sudo chmod 0777 -R /home/${user}

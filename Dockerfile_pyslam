@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:20.04 AS base
 
 # Arguments
 ARG user
@@ -98,6 +98,7 @@ RUN sudo touch ${home}/.bashrc && sudo chown ${user}:${user} ${home}/.bashrc && 
 RUN cat ${home}/bashrc_add >> "${home}/.bashrc"
 
 ################################
+FROM base AS final
 
 # Install and configure git
 RUN sudo mkdir -p /home/${user}/.ssh && sudo chmod 0777 -R /home/${user}
