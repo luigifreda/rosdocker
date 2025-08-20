@@ -44,19 +44,23 @@ RUN sh -c 'curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.as
 ################################
 
 # Basic Utilities 
-RUN apt-get -y update && apt-get install -y screen tree sudo ssh synaptic aptitude gedit geany
+RUN apt-get -y update && apt-get install -y screen tree sudo ssh synaptic psmisc aptitude gedit geany 
+RUN apt-get install -y git curl wget ca-certificates 
 
 # Latest X11 / mesa GL
 RUN apt-get install -y mesa-utils 
 
-# Dependencies required to build rviz
+# Dependencies required to build rviz (already installed in ros:noetic-robot: from https://varhowto.com/install-ros-noetic-docker/)
 RUN apt-get install -y libqt5core5a libqt5dbus5 libqt5gui5 
-
-# ROS-desktop
-RUN apt-get install -y ros-noetic-desktop-full
 
 # Additional development tools
 RUN apt-get install -y build-essential git
+
+# ROS-desktop
+RUN apt-get install -y ros-noetic-desktop-full
+RUN [ -f /etc/ros/rosdep/sources.list.d/20-default.list ] && rm /etc/ros/rosdep/sources.list.d/20-default.list || true
+RUN apt-get install -y python3-rosdep
+RUN rosdep init && rosdep update
 
 # Python 
 RUN apt-get install -y python3-pip
@@ -75,6 +79,15 @@ libudev-dev
 
 SHELL ["/bin/bash", "-c"]
 RUN source /opt/ros/noetic/setup.bash
+
+RUN apt-get update && apt-get install -y locales \
+ && sed -i 's/^# *en_US\.UTF-8/en_US.UTF-8/' /etc/locale.gen \
+ && locale-gen \
+ && update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
+ENV LANG=en_US.UTF-8
+ENV LC_ALL=en_US.UTF-8
+ENV XDG_RUNTIME_DIR=/tmp/runtime-root
+RUN mkdir -p /tmp/runtime-root && chmod 700 /tmp/runtime-root
 
 ################################
 
@@ -121,4 +134,3 @@ WORKDIR ${workspace}
 
 COPY ./bashrc_add ${home}/bashrc_add
 RUN cat ${home}/bashrc_add >> "${home}/.bashrc"
-

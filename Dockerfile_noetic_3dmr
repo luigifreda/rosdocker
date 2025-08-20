@@ -18,6 +18,15 @@ LABEL maintainer="luigifreda@gmail.com"
 
 ENV TZ=${timezone}
 
+RUN apt-get update && apt-get install -y locales \
+ && sed -i 's/^# *en_US\.UTF-8/en_US.UTF-8/' /etc/locale.gen \
+ && locale-gen \
+ && update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
+ENV LANG=en_US.UTF-8
+ENV LC_ALL=en_US.UTF-8
+ENV XDG_RUNTIME_DIR=/tmp/runtime-root
+RUN mkdir -p /tmp/runtime-root && chmod 700 /tmp/runtime-root
+
 ################################
 
 # switch to root 
