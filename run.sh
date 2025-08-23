@@ -102,8 +102,15 @@ else
 
     NVIDIA_OPTIONS=""
     if [[ "$OSTYPE" == "linux"* ]]; then 
-        NVIDIA_OPTIONS="--gpus all -e NVIDIA_DRIVER_CAPABILITIES=all -e NVIDIA_VISIBLE_DEVICES=all --runtime=nvidia"
+        # check if nvidia runtime is available
+        if [ -z "$(docker info | grep -i 'runtime' | grep -i 'nvidia')" ]; then
+            echo "NVIDIA runtime is not available"
+            NVIDIA_OPTIONS=""
+        else
+            NVIDIA_OPTIONS="--gpus all -e NVIDIA_DRIVER_CAPABILITIES=all -e NVIDIA_VISIBLE_DEVICES=all --runtime=nvidia"
+        fi
     fi 
+
 
     MOUNT_OPTIONS=""
     if [[ "$OSTYPE" == "linux"* ]]; then 

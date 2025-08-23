@@ -18,6 +18,15 @@ LABEL maintainer="luigifreda@gmail.com"
 
 ENV TZ=${timezone}
 
+################################
+
+# switch to root 
+USER root  
+
+RUN apt-get -y update && DEBIAN_FRONTEND=noninteractive apt-get install -y keyboard-configuration
+RUN apt-get install -y git curl wget ca-certificates 
+
+# Set locale
 RUN apt-get update && apt-get install -y locales \
  && sed -i 's/^# *en_US\.UTF-8/en_US.UTF-8/' /etc/locale.gen \
  && locale-gen \
@@ -27,13 +36,6 @@ ENV LC_ALL=en_US.UTF-8
 ENV XDG_RUNTIME_DIR=/tmp/runtime-root
 RUN mkdir -p /tmp/runtime-root && chmod 700 /tmp/runtime-root
 
-################################
-
-# switch to root 
-USER root  
-
-RUN apt-get -y update && DEBIAN_FRONTEND=noninteractive apt-get install -y keyboard-configuration
-RUN apt-get install -y git curl wget ca-certificates 
 
 # Switch to user
 USER "${user}"
