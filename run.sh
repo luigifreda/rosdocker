@@ -111,6 +111,8 @@ else
         fi
     fi 
 
+    SHARED_MEMORY_OPTIONS="--ipc=host --shm-size=16g"
+
 
     MOUNT_OPTIONS=""
     if [[ "$OSTYPE" == "linux"* ]]; then 
@@ -119,6 +121,7 @@ else
 
     docker run -it --rm \
             --net=host \
+            $SHARED_MEMORY_OPTIONS \
             --privileged $UID_OPTIONS \
             -e SHELL \
             -e USER \
