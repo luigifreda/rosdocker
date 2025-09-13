@@ -23,7 +23,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata apt-utils keyboard-
 RUN apt-get install -y screen tree sudo ssh synaptic aptitude gedit geany
 
 # Latest X11 / mesa GL
-RUN apt-get install -y mesa-utils 
+RUN apt-get install -y mesa-utils x11-apps
 
 # Dependencies required to build rviz
 RUN apt-get install -y libqt5core5a libqt5dbus5 libqt5gui5 
@@ -61,7 +61,7 @@ VOLUME "${home}"
 
 # Under ubuntu 24.04 we have a user ubuntu with uid equal to ${user}
 # Let's check if we have a user with uid==${uid}. If yes, we rename it. Otherwise we add a new one.
-RUN if id -u "${uid}" &> /dev/null; then \
+RUN if getent passwd ${uid} > /dev/null 2>&1; then \
     existent_user=$(getent passwd ${uid} | cut -d: -f1); \
     sudo usermod -l ${user} $existent_user; \
     sudo usermod -d /home/${user} -m ${user}; \
