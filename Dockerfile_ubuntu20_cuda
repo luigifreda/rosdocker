@@ -93,3 +93,9 @@ WORKDIR ${workspace}
 
 COPY ./bashrc_add ${home}/bashrc_add
 RUN cat ${home}/bashrc_add >> "${home}/.bashrc"
+
+# # Install conda 
+# RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh 
+# RUN bash ~/miniconda.sh -b -u -p ~/miniconda3 &&\
+#     rm ~/miniconda.sh &&\
+#     ~/miniconda3/bin/conda init bash
