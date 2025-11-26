@@ -32,7 +32,7 @@ case "$OSTYPE" in
 esac
 
 # NOTE: Uncomment the following line to get more info/feedback at build time
-#PROGRESS_OPTION="--progress=plain"
+PROGRESS_OPTION="--progress=plain"
 
 # NOTE: Uncomment the following line to build a Docker image without using the cache
 #NOCACHE_OPTION="--no-cache"

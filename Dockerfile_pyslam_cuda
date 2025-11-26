@@ -35,8 +35,8 @@ RUN apt-get install -y libqt5core5a libqt5dbus5 libqt5gui5 --no-install-recommen
 RUN apt-get install -y cmake build-essential git --no-install-recommends
 
 # Python 
-RUN apt-get install -y python3-pip --no-install-recommends
-RUN ln -s /usr/bin/python3 /usr/bin/python 
+RUN apt-get install -y python3-pip
+RUN apt-get install -y python-is-python3  
 
 # ROS deps
 RUN apt-get install -y doxygen libssh2-1-dev libudev-dev --no-install-recommends 
