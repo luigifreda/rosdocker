@@ -1,0 +1,38 @@
+# Build on top of the base image produced by Dockerfile_ubuntu24_cuda
+FROM ubuntu24_cuda
+
+# Arguments
+ARG user
+ARG uid
+ARG home
+ARG workspace
+ARG shell
+ARG nvidia_driver_version
+ARG container_name
+ARG timezone=Etc/UTC
+
+LABEL maintainer="luigifreda@gmail.com"
+
+ENV TZ=${timezone}
+
+# Explicitly override CONTAINER_NAME from base image
+ENV CONTAINER_NAME="${container_name}"
+
+################################
+# Refresh packages as root, then install conda as the normal user
+USER root
+RUN apt-get -y update && apt-get -y dist-upgrade
+
+################################
+# Install conda 
+USER "${user}"
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
+RUN bash ~/miniconda.sh -b -u -p ~/miniconda3 && \
+    rm ~/miniconda.sh && \
+    ~/miniconda3/bin/conda init bash
+
+# Verify CONTAINER_NAME is set correctly (this will show in build output)
+RUN echo "CONTAINER_NAME is set to: $CONTAINER_NAME"
+
+
+    

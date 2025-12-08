@@ -69,6 +69,7 @@ if [ "$(docker ps -a | grep ${CONTAINER_NAME})" ]; then
     docker exec -it \
             -e SHELL \
             -e USER \
+            -e CONTAINER_NAME="${CONTAINER_NAME}" \
             -e DISPLAY="$DISPLAY_OPTIONS"  \
             --privileged \
             $1 $SHELL
@@ -125,6 +126,7 @@ else
             --privileged $UID_OPTIONS \
             -e SHELL \
             -e USER \
+            -e CONTAINER_NAME="${CONTAINER_NAME}" \
             -e DISPLAY="$DISPLAY_OPTIONS" \
             -e DOCKER=1 \
             -e XAUTHORITY=${XAUTH} \

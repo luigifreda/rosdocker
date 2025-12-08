@@ -32,7 +32,8 @@ fi
 
 # Set default container name if it wasn't set up
 if [[ -z "${CONTAINER_NAME}" ]]; then
-    export CONTAINER_NAME=noetic  
+    echo "CONTAINER_NAME is not set, please set it in the config.sh file"
+    exit 1
 fi
 export DOCKER_FILE="Dockerfile_$CONTAINER_NAME"
 echo "CONTAINER_NAME=$CONTAINER_NAME"
