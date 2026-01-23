@@ -85,6 +85,8 @@ Each image `<NAME>` listed below corresponds to a dockerfile: `Dockerfile_<NAME>
 - `ubuntu24` built on top of `ubuntu:24.04` (no ROS)
 - `ubuntu24_cuda` built on top of `nvidia/cuda:12.8.0-devel-ubuntu24.04` (no ROS, with CUDA) 
 - `ubuntu24_cuda_conda` built on top of `ubuntu_24_cuda` (no ROS, with CUDA, with latest miniCONDA) 
+- `jazzy` built on the top of `ros:jazzy`  (`ubuntu:24.04`)
+- `jazzy_cuda` built on top of `ubuntu_24_cuda`
   
 An old heritage:  
 - `tradr` (built on top of `ros:indigo`) (`ubuntu:14.04`) (it was used during the [TRADR](https://www.tradr-project.eu/) program)
@@ -109,6 +111,7 @@ To build the `pyslam` / `pyslam_cuda` image, which can host the [pyslam](https:/
 `$ ./build.sh pyslam`         
 or        
 `$ ./build.sh pyslam_cuda` if your system supports NVIDIA CUDA      
+
 Then, open a terminal and run:      
 `$ ./run.sh pyslam`       
 or         
@@ -155,4 +158,4 @@ $ sudo service docker restart
 ---
 ## Credits 
 
-This repository was initially inspired by https://github.com/jbohren/rosdocked. Thanks to its Author. I've been using and improving this repo in the background for years. Now, it's time to share it back.  
+This repository was originally inspired by https://github.com/jbohren/rosdocked. Thanks to its author. I started from that repo and have been working on it in the background for years; now it's time to share it back.    

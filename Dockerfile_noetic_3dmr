@@ -62,3 +62,5 @@ RUN cd 3dmr && ./install.sh
 RUN rm -Rf 3dmr 
 
 WORKDIR ${home}
+
+ENV CONTAINER_NAME="${container_name}"

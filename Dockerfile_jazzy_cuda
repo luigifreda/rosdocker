@@ -1,0 +1,37 @@
+# need to build ubuntu24_cuda first
+FROM ubuntu24_cuda
+
+# Arguments
+ARG user
+ARG uid
+ARG home
+ARG workspace
+ARG shell
+ARG nvidia_driver_version
+ARG container_name
+ARG timezone=Etc/UTC
+
+LABEL maintainer="luigifreda@gmail.com"
+
+ENV TZ=${timezone}
+
+################################
+
+# copy the install_ros2.sh script
+COPY ./ros/install_ros2.sh /tmp/install_ros2.sh
+RUN sudo chmod +x /tmp/install_ros2.sh
+RUN sudo /tmp/install_ros2.sh jazzy desktop true
+
+# switch to user
+USER "${user}"
+
+# This is required for sharing Xauthority
+#ENV QT_X11_NO_MITSHM=1 # already done in ubuntu24_cuda
+
+
+ENV CONTAINER_NAME="${container_name}"
+
+# Switch to the workspace
+WORKDIR ${workspace}
+
+# COPY ./bashrc_add ${home}/bashrc_add # already done in ubuntu24_cuda
