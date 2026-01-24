@@ -36,7 +36,7 @@ Check you have installed the *[nvidia-docker-toolkit](https://docs.nvidia.com/da
 
 ### Configuration 
 
-In the file [config.sh](./config.sh), set your favorite *working folder* `WORKING_FOLDER_TO_MOUNT_IN_CONTAINER`. This folder will be mounted from the host into the run container so that we can conveniently work ont it and preserve changes. By default:    
+In the file [config.sh](./config.sh), set your favorite *working folder* `WORKING_FOLDER_TO_MOUNT_IN_CONTAINER`. This folder will be mounted from the host into the run container so that we can conveniently work on it and preserve changes. By default:    
 `WORKING_FOLDER_TO_MOUNT_IN_CONTAINER="$HOME/Work"`       
 
 
@@ -59,7 +59,7 @@ For instance, if you want to build, run and stop the `noetic` container/image co
 
 **NOTE1**: When you update your Nvidia drivers, rebuild the image with the `build.sh` script. 
 
-**NOTE2**: any change made outside of our folder `WORKING_FOLDER_TO_MOUNT_IN_CONTAINER` from within the docker environment will not persist. If you want to add additional binary packages without having to reinstall them each time, add them to the Dockerfile and rebuild. This is a well known rule for docker users. 
+**NOTE2**: Any change made outside of our folder `WORKING_FOLDER_TO_MOUNT_IN_CONTAINER` from within the docker environment will not persist. If you want to add additional binary packages without having to reinstall them each time, add them to the Dockerfile and rebuild. This is a well known rule for docker users. 
 
 ---
 ## Available Images and Dockerfiles 
@@ -83,7 +83,8 @@ Each image `<NAME>` listed below corresponds to a dockerfile: `Dockerfile_<NAME>
 - `ubuntu22_cuda` built on top of `nvidia/cuda:12.8.0-devel-ubuntu22.04` (no ROS, with CUDA) 
 - `ubuntu22_cuda_conda` built on top of `ubuntu22_cuda` with `conda` (no ROS, with CUDA, with latest miniCONDA) 
 - `ubuntu24` built on top of `ubuntu:24.04` (no ROS)
-- `ubuntu24_cuda` built on top of `nvidia/cuda:12.8.0-devel-ubuntu24.04` (no ROS, with CUDA) 
+- `ubuntu24_cuda` built on top of `nvidia/cuda:12.8.0-devel-ubuntu24.04` (no ROS, with CUDA 12.8.0) 
+- `ubuntu24_cuda13` built on top of `nvidia/cuda:13.1.1-devel-ubuntu24.04` (no ROS, with CUDA 13.1.1)
 - `ubuntu24_cuda_conda` built on top of `ubuntu_24_cuda` (no ROS, with CUDA, with latest miniCONDA) 
 - `jazzy` built on the top of `ros:jazzy`  (`ubuntu:24.04`)
 - `jazzy_cuda` built on top of `ubuntu_24_cuda`
